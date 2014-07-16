@@ -2,7 +2,15 @@ _TopDownVoidFighter_
 
 ------
 __Description__  
-No Description Available.
+No Description Available.  
+
+------
+__IRC__  
+The IRC for this project will be located in the StaticVoidGames channel.  
+Connection Info:  
+Server: irc.chatspike.net  
+Port: 6667  
+Channel: #StaticVoidGames  
 
 ------
 __APIs/Engines__  
