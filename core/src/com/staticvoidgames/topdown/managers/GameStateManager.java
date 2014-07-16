@@ -60,7 +60,8 @@ public class GameStateManager {
 			currentState = state;
 			break;
 		default:
-			System.out.println("INPUTTED STATE NOT VALID!");
+			System.err.println("INPUTTED STATE NOT VALID!");
+			System.exit(2);
 			break;
 		}
 	}
