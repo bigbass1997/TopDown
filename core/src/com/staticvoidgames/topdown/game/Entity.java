@@ -1,5 +1,10 @@
 package com.staticvoidgames.topdown.game;
 
-public class Entity {
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+public interface Entity {
+	public void getX();
+	public void render(SpriteBatch batch);
+	public void getY();
+	public void update();
 }

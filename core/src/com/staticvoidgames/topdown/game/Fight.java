@@ -6,9 +6,13 @@ import com.staticvoidgames.topdown.states.GameState;
 
 public class Fight extends GameState{
 
-	public Fight(GameStateManager gsm) {
+	private static final float TIMESTEP = 0.01f;
+	private Gamelogic gamelogic;
+	private int remaining;
+
+	public Fight(GameStateManager gsm,Gamelogic gamelogic) {
 		super(gsm);
-		// TODO Auto-generated constructor stub
+		this.gamelogic=gamelogic;
 	}
 
 	@Override
@@ -19,14 +23,19 @@ public class Fight extends GameState{
 
 	@Override
 	public void update(float delta) {
-		// TODO Auto-generated method stub
-		
+		while (remaining>0) {
+			remaining-= TIMESTEP;
+			gamelogic.update();
+		}
 	}
 
 	@Override
 	public void draw(SpriteBatch batch) {
-		// TODO Auto-generated method stub
-		
+		Entity[] torender=new Entity[gamelogic.entities.size()];
+		gamelogic.entities.toArray(torender);
+		for (int i = 0; i < torender.length; i++) {
+			torender[i].render(batch);
+		}
 	}
 
 	@Override
