@@ -28,8 +28,8 @@ public class GraphicsMain extends ApplicationAdapter {
 		sHeight = Gdx.graphics.getHeight();
 		
 		//Sets up camera based on those values.
-		camera = new OrthographicCamera(sWidth, sHeight);
-		camera.setToOrtho(false, sWidth, sHeight);
+		camera = new OrthographicCamera();
+		camera.setToOrtho(false, sWidth/sHeight, 1);
 		
 		//INIT batch
 		batch = new SpriteBatch();
