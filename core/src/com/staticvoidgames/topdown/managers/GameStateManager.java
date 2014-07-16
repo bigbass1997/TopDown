@@ -1,5 +1,6 @@
 package com.staticvoidgames.topdown.managers;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.staticvoidgames.topdown.states.GameState;
 import com.staticvoidgames.topdown.states.MenuState;
@@ -43,9 +44,8 @@ public class GameStateManager {
 		gameState.update(delta);
 	}
 	
-	public void draw(){
-		//Draws current active gameState.
-		gameState.draw();
+	public void draw(SpriteBatch batch){
+		gameState.draw(batch);
 	}
 	
 	public void setState(int state){

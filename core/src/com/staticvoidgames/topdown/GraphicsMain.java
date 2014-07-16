@@ -49,6 +49,8 @@ public class GraphicsMain extends ApplicationAdapter {
 		
 		//GSM Update and Draw(render) methods
 		gsm.update(Gdx.graphics.getDeltaTime());
-		gsm.draw();
+		batch.begin();
+		gsm.draw(batch);
+		batch.end();
 	}
 }

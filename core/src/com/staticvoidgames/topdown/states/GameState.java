@@ -1,5 +1,6 @@
 package com.staticvoidgames.topdown.states;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.staticvoidgames.topdown.managers.GameStateManager;
 
 public abstract class GameState {
@@ -15,6 +16,6 @@ public abstract class GameState {
 	
 	public abstract void init();
 	public abstract void update(float delta);
-	public abstract void draw();
+	public abstract void draw(SpriteBatch batch);
 	public abstract void dispose();
 }
