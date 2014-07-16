@@ -3,7 +3,7 @@ package com.staticvoidgames.topdown.client;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
-import com.staticvoidgames.topdown.TopDown;
+import com.staticvoidgames.topdown.GraphicsMain;
 
 public class HtmlLauncher extends GwtApplication {
 
@@ -14,6 +14,6 @@ public class HtmlLauncher extends GwtApplication {
 
         @Override
         public ApplicationListener getApplicationListener () {
-                return new TopDown();
+                return new GraphicsMain();
         }
 }

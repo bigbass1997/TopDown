@@ -5,13 +5,13 @@ import org.robovm.apple.uikit.UIApplication;
 
 import com.badlogic.gdx.backends.iosrobovm.IOSApplication;
 import com.badlogic.gdx.backends.iosrobovm.IOSApplicationConfiguration;
-import com.staticvoidgames.topdown.TopDown;
+import com.staticvoidgames.topdown.GraphicsMain;
 
 public class IOSLauncher extends IOSApplication.Delegate {
     @Override
     protected IOSApplication createApplication() {
         IOSApplicationConfiguration config = new IOSApplicationConfiguration();
-        return new IOSApplication(new TopDown(), config);
+        return new IOSApplication(new GraphicsMain(), config);
     }
 
     public static void main(String[] argv) {
