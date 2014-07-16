@@ -15,30 +15,41 @@ public class GameStateManager {
 	private GameState menuState;
 	private GameState playState;
 	
+	//ShapeRenderer from LibGDX handles that actual shape rendering in DrawManager.
 	public ShapeRenderer sr;
-	public FontManager fm;
+	
+	//DrawManager is used for drawing Text and simple shapes to the screen.
 	public DrawManager dm;
 	
+	//FontManager is used to store and INIT fonts to be used when drawing text.
+	public FontManager fm;
+	
 	public GameStateManager(){
+		//INIT of Managers
 		sr = new ShapeRenderer();
 		fm = new FontManager();
-		dm = new DrawManager(sr);
+		dm = new DrawManager(sr); //First notice of the passing of managers to other managers. DrawManager requires ShapeRender for rendering shapes.
 		
+		//Game State INITs for all gameStates
 		menuState = new MenuState(this);
 		//playState = new PlayState(this);
 		
+		//Sets the first state to be used when game starts up.
 		setState(MENUSTATE);
 	}
 	
 	public void update(float delta){
+		//Updates current active gameState.
 		gameState.update(delta);
 	}
 	
 	public void draw(){
+		//Draws current active gameState.
 		gameState.draw();
 	}
 	
 	public void setState(int state){
+		//Function used to switch to a different state.
 		switch(state){
 		case MENUSTATE:
 			gameState = menuState;
@@ -54,6 +65,9 @@ public class GameStateManager {
 		}
 	}
 	
+	//Gets the current gameState. NOT the state itself but the INT representation of that state.
 	public int getCurrentState(){ return currentState;}
+	
+	//Gets the current gameState. Returns the ACTUAL GAMESTATE.
 	public GameState getGameState(){ return gameState;}
 }

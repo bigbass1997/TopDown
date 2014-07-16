@@ -17,6 +17,7 @@ public class DrawManager {
 		batch = GraphicsMain.batch;
 	}
 	
+	//Draws a rectangle
 	public void Rect(float x, float y, float width, float height, int color, ShapeType type){
 		sr.setColor(new Color(color));
 		sr.begin(type);
@@ -24,6 +25,7 @@ public class DrawManager {
 		sr.end();
 	}
 	
+	//Draws a Polygon based on its vertices. (at least 3 vertices must be passed in)
 	public void Polygon(float[] vertices, int color, ShapeType type){
 		sr.setColor(new Color(color));
 		sr.begin(type);
@@ -31,6 +33,7 @@ public class DrawManager {
 		sr.end();
 	}
 	
+	//Draws text. Must pass in a font from the FontManager. (e.g. dm.String("", 0, 0, fm.FONTVARIABLE, 0xAARRGGBB);)
 	public void String(String s, float x, float y, BitmapFont font, int color){
 		font.setColor(Color.WHITE); //Resets color
 		font.setColor(new Color(color));
