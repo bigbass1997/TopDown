@@ -1,0 +1,18 @@
+This file is meant to be used for easy planing.
+
+Steps:
+1) Decide what the game is about(VERY IMPORTANT)
+2) depends on 1)
+3) depends on 2)
+....
+999) depends on 998)
+1000) Become rich.
+
+Proposal for solving 1).
+A top down PUZZLE-SHOOTER!
+Simple basic things are needed : Obstacles & Enemies 
+Obstacles: 
+-Colored Walls, which can be turned on-off with theire respctive switches.
+Ennemies:
+-Turrets that shoot at you.
+-Colored turrets, which can be turned on-off with theire respctive switches.
