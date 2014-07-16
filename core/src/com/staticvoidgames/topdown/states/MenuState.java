@@ -34,7 +34,7 @@ public class MenuState extends GameState {
 	public void draw() {
 		//Testing Image being drawn.
 		GraphicsMain.batch.begin();
-		sprite.draw(GraphicsMain.batch);
+		GraphicsMain.batch.draw(sprite, 0, 0, 1, 1);
 		GraphicsMain.batch.end();
 	}
 
