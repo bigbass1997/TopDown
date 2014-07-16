@@ -16,6 +16,9 @@ public abstract class GameState {
 	
 	public abstract void init();
 	public abstract void update(float delta);
+	/**
+	 * You need to end and restart the batch if you wish to use another batch.
+	 */
 	public abstract void draw(SpriteBatch batch);
 	public abstract void dispose();
 }
