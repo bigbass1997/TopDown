@@ -1,5 +1,8 @@
 package com.staticvoidgames.topdown.game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Polygon;
 import com.staticvoidgames.topdown.managers.TextureManager;
@@ -12,12 +15,12 @@ import com.staticvoidgames.topdown.states.PlayState;
  */
 public class Player implements Entity{
 	Polygon polygon;
-	float xm;
-	float ym;
-	float x;
-	float y;
-	private int timer=10;
-	private int cooldown=100;
+	private float x, y, xm, ym;
+	
+	private int timer = 10;
+	private int cooldown = 100;
+	
+	private float speed = 1.0f;
 	
 	public Player(float x, float y) {
 		polygon= new Polygon(new float[]{
@@ -28,9 +31,8 @@ public class Player implements Entity{
 		});
 		polygon.translate(x, y);
 		PlayState.entities.add(this);
-		this.x=x;
-		this.y=y;
-		xm=0.1f;
+		this.x = x;
+		this.y = y;
 	}
 
 
@@ -51,6 +53,15 @@ public class Player implements Entity{
 		x+=xm;
 		y+=ym;
 		polygon.translate(xm, ym);
+		
+		Input input = Gdx.input;
+		if(input.isKeyPressed(Keys.LEFT) || input.isKeyPressed(Keys.A)){
+			xm = -speed;
+		}else if(input.isKeyPressed(Keys.RIGHT) || input.isKeyPressed(Keys.D)){
+			xm = speed;
+		}else{
+			xm = 0.0f;
+		}
 	}
 
 	@Override
