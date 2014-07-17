@@ -3,10 +3,10 @@ package com.staticvoidgames.topdown.game;
 import java.util.Vector;
 
 public class Gamelogic{
-	public volatile Vector<Entity> entities= new Vector<Entity>();
+	public volatile static Vector<Entity> entities= new Vector<Entity>();
 	
 	public Gamelogic() {
-		entities.add(new Player(0, 0));
+		new Player(300, 300);
 		
 	}
 	/**
