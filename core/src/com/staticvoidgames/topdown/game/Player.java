@@ -21,11 +21,12 @@ public class Player implements Entity{
 	
 	public Player(float x, float y) {
 		polygon= new Polygon(new float[]{
-				10,0,
-				0,10,
-				-10,0,
-				0,-10,
+				-10,10,
+				10,10,
+				10,-10,
+				-10,-10,
 		});
+		polygon.translate(x, y);
 		PlayState.entities.add(this);
 		this.x=x;
 		this.y=y;
@@ -44,16 +45,16 @@ public class Player implements Entity{
 		timer--;
 		if(timer==0){
 			timer+=cooldown;
-			new Shot(x, y+20, 0, 3);
+			new Shot(x, y+17, 0, 3);
 		}
 		
 		x+=xm;
 		y+=ym;
+		polygon.translate(xm, ym);
 	}
 
 	@Override
 	public Polygon[] getPolygons() {
-		polygon.setPosition(x, y);
 		return new Polygon[]{polygon};
 	}
 

@@ -5,9 +5,9 @@ import java.util.Vector;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
+import com.staticvoidgames.topdown.game.Circle;
 import com.staticvoidgames.topdown.game.Entity;
 import com.staticvoidgames.topdown.game.Player;
-import com.staticvoidgames.topdown.game.Rock;
 import com.staticvoidgames.topdown.managers.GameStateManager;
 
 public class PlayState extends GameState{
@@ -18,7 +18,6 @@ public class PlayState extends GameState{
 	public PlayState(GameStateManager gsm) {
 		super(gsm);
 		new Player(100, 100);
-		new Rock(100, 600);
 	}
 	@Override
 	public void init() {
