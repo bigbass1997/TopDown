@@ -5,50 +5,35 @@ import com.badlogic.gdx.math.Polygon;
 import com.staticvoidgames.topdown.managers.TextureManager;
 import com.staticvoidgames.topdown.states.PlayState;
 
-/**
- * Someone had to do this
- * @author Gaspard__
- *
- */
-public class Player implements Entity{
-	Polygon polygon;
-	float xm;
-	float ym;
-	float x;
-	float y;
-	private int timer=10;
-	private int cooldown=100;
-	
-	public Player(float x, float y) {
+public class Rock implements Entity{
+	int life=10;
+	private Polygon polygon;
+	private float y;
+	private float x;
+	public Rock(float x,float y) {
 		polygon= new Polygon(new float[]{
-				10,0,
-				0,10,
-				-10,0,
-				0,-10,
+				0,16,
+				14,0,
+				34,7,
+				39,24,
+				25,39,
+				5,38
 		});
 		PlayState.entities.add(this);
 		this.x=x;
 		this.y=y;
-		xm=0.1f;
 	}
 
 
 	@Override
 	public void render(SpriteBatch batch) {
-		batch.draw(TextureManager.playerTexture, x-10, y-10, 10*2, 10*2);
+		batch.draw(TextureManager.rockTexture, x-20, y-20, 20*2, 20*2);
 	}
 
 
 	@Override
 	public void update() {
-		timer--;
-		if(timer==0){
-			timer+=cooldown;
-			new Shot(x, y+20, 0, 3);
-		}
-		
-		x+=xm;
-		y+=ym;
+		y-=0.1f;
 	}
 
 	@Override
@@ -65,7 +50,7 @@ public class Player implements Entity{
 
 	@Override
 	public void hit(int damage) {
-		
+		life-=damage;
 	}
 
 

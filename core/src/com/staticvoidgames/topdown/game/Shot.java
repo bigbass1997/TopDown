@@ -12,20 +12,20 @@ public class Shot implements Entity {
 	float ym;
 	float x;
 	float y;
+	private boolean dead;
 	
 	public Shot(float x, float y,float xm,float ym) {
 		polygon= new Polygon(new float[]{
-				-1,1,
-				1,1,
-				1,-1,
-				-1,-1,
+				0,2.5f,
+				2.5f,-2.5f,
+				-2.5f,-2.5f,
 		});
 		PlayState.entities.add(this);
-		polygon.translate(x, y);
 		this.x=x;
 		this.y=y;
 		this.xm=xm;
 		this.ym=ym;
+		dead=false;
 	}
 
 
@@ -44,12 +44,15 @@ public class Shot implements Entity {
 
 	@Override
 	public Polygon[] getPolygons() {
+		polygon.setPosition(x, y);
 		return new Polygon[]{polygon};
 	}
 
 	@Override
 	public void collide( Entity entity) {
-		
+		entity.hit(1);
+		System.out.println(entity.getClass());
+		dead=true;
 	}
 
 
@@ -61,7 +64,7 @@ public class Shot implements Entity {
 
 	@Override
 	public boolean isdead() {
-		return y>GraphicsMain.SIZE;
+		return dead||y>GraphicsMain.SIZE;
 	}
 	
 }
