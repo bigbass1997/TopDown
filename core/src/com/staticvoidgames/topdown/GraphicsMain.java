@@ -40,7 +40,7 @@ public class GraphicsMain extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		shaperenderer= new ShapeRenderer();
 		//INIT GSM
-		gsm = new GameStateManager();
+		gsm = new GameStateManager(batch);
 	}
 
 	@Override

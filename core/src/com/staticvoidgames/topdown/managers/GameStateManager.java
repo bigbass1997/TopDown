@@ -26,11 +26,11 @@ public class GameStateManager {
 	//FontManager is used to store and INIT fonts to be used when drawing text.
 	public FontManager fm;
 	
-	public GameStateManager(){
+	public GameStateManager(SpriteBatch batch){
 		//INIT of Managers
 		sr = new ShapeRenderer();
 		fm = new FontManager();
-		dm = new DrawManager(sr); //First notice of the passing of managers to other managers. DrawManager requires ShapeRender for rendering shapes.
+		dm = new DrawManager(sr, batch); //First notice of the passing of managers to other managers. DrawManager requires ShapeRender for rendering shapes.
 		
 		//Game State INITs for all gameStates
 		menuState = new MenuState(this);
