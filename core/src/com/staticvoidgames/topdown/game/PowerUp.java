@@ -10,7 +10,7 @@ public class PowerUp implements Entity{
 	Polygon polygon;
 	private float x, y;
 	boolean taken;
-	public ShotType shottype;
+	public PowerUpType powerUpType;
 	
 	public PowerUp(float x, float y) {
 		polygon= new Polygon(new float[]{
@@ -21,7 +21,7 @@ public class PowerUp implements Entity{
 		});
 		polygon.translate(x, y);
 		PlayState.entities.add(this);
-		shottype=ShotType.DOUBLE;
+		powerUpType=PowerUpType.DOUBLE;
 		this.x = x;
 		this.y = y;
 	}
@@ -35,8 +35,8 @@ public class PowerUp implements Entity{
 
 	@Override
 	public void update() {
-		y-=0.1f;
-		polygon.translate(0, -0.1f);
+		y-=0.2f;
+		polygon.translate(0, -0.2f);
 	}
 
 	@Override
@@ -46,7 +46,11 @@ public class PowerUp implements Entity{
 
 	@Override
 	public void collide( Entity entity) {
-		
+		if(entity.getClass()==Player.class){
+			Player player = (Player)entity;
+			player.powerUpType=powerUpType;
+			taken=true;
+		}
 	}
 
 

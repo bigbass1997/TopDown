@@ -15,7 +15,8 @@ import com.staticvoidgames.topdown.states.PlayState;
  */
 public class Player implements Entity{
 
-	ShotType shotType;
+	private static final float BASICSPEED = 1.0f;
+	PowerUpType powerUpType;
 	Polygon polygon;
 	private float x, y, xm, ym;
 	
@@ -25,7 +26,7 @@ public class Player implements Entity{
 	private float speed = 1.0f;
 	
 	public Player(float x, float y) {
-		shotType=ShotType.BASIC;
+		powerUpType=PowerUpType.BASIC;
 		polygon= new Polygon(new float[]{
 				-10,10,
 				10,10,
@@ -48,8 +49,9 @@ public class Player implements Entity{
 	@Override
 	public void update() {
 		timer--;
+		speed=BASICSPEED;
 		if(timer==0){
-			switch (shotType) {
+			switch (powerUpType) {
 			case BASIC:
 				new Shot(x, y+17, 0, 3);
 				break;
@@ -61,6 +63,9 @@ public class Player implements Entity{
 				new Shot(x-10, y+17, 0, 3);
 				new Shot(x, y+17, 0, 3);
 				new Shot(x+10, y+17, 0, 3);
+				break;
+			case SPEED:
+				speed=BASICSPEED*2;
 				break;
 			default:
 				break;
@@ -92,10 +97,7 @@ public class Player implements Entity{
 
 	@Override
 	public void collide(Entity entity) {
-		if(entity.getClass()==PowerUp.class){
-			((PowerUp)entity).taken=true;
-			this.shotType= ((PowerUp)entity).shottype;
-		}
+		
 	}
 
 

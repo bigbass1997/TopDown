@@ -35,8 +35,8 @@ public class Rock implements Entity{
 
 	@Override
 	public void update() {
-		y-=0.1f;
-		polygon.translate(0, -0.1f);
+		y-=0.2f;
+		polygon.translate(0, -0.2f);
 	}
 
 	@Override
