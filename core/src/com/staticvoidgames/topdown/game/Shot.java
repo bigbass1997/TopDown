@@ -1,6 +1,7 @@
 package com.staticvoidgames.topdown.game;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.staticvoidgames.topdown.GraphicsMain;
 import com.staticvoidgames.topdown.managers.TextureManager;
 import com.staticvoidgames.topdown.states.PlayState;
 
@@ -40,6 +41,10 @@ public class Shot implements Entity {
 	@Override
 	public void hit(int damage) {
 		
+	}
+	@Override
+	public boolean isdead() {
+		return circle.y>GraphicsMain.SIZE;
 	}
 	
 }

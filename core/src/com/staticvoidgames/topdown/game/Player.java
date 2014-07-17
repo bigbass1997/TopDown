@@ -55,4 +55,10 @@ public class Player implements Entity{
 	public void hit(int damage) {
 		
 	}
+
+
+	@Override
+	public boolean isdead() {
+		return false;
+	}
 }

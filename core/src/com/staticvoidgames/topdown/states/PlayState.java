@@ -19,7 +19,6 @@ public class PlayState extends GameState{
 	}
 	@Override
 	public void init() {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -64,6 +63,12 @@ public class PlayState extends GameState{
 				}
 			}
 		}
+		int i=0;
+		while (i < entities.size()) {
+			if(entities.get(i).isdead())entities.remove(i);
+			else i++;
+		}
+		//System.out.println(entities.size());
 	}
 	private double angle1to2;
 	private boolean colision(Entity e1, Entity e2) {

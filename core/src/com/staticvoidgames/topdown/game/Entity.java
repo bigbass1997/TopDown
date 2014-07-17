@@ -8,4 +8,5 @@ public interface Entity {
 	public Circle[] getCircles();
 	public void collide(double angle1to2, Entity entity);
 	public void hit(int damage);
+	public boolean isdead();
 }
