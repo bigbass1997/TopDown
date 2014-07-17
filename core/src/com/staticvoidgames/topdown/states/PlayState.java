@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
 import com.staticvoidgames.topdown.game.Entity;
 import com.staticvoidgames.topdown.game.Player;
+import com.staticvoidgames.topdown.game.PowerUp;
 import com.staticvoidgames.topdown.game.Rock;
 import com.staticvoidgames.topdown.managers.GameStateManager;
 
@@ -19,6 +20,7 @@ public class PlayState extends GameState{
 		super(gsm);
 		new Player(100, 100);
 		new Rock(100, 600);
+		new PowerUp(300, 250);
 	}
 	@Override
 	public void init() {
