@@ -2,8 +2,10 @@ package com.staticvoidgames.topdown.managers;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.staticvoidgames.topdown.game.Gamelogic;
 import com.staticvoidgames.topdown.states.GameState;
 import com.staticvoidgames.topdown.states.MenuState;
+import com.staticvoidgames.topdown.states.PlayState;
 
 public class GameStateManager {
 	
@@ -13,8 +15,8 @@ public class GameStateManager {
 	public final int MENUSTATE = 0;
 	public final int PLAYSTATE = 1;
 	
-	private GameState menuState;
-	private GameState playState;
+	private MenuState menuState;
+	private PlayState playState;
 	
 	//ShapeRenderer from LibGDX handles that actual shape rendering in DrawManager.
 	public ShapeRenderer sr;
@@ -33,10 +35,10 @@ public class GameStateManager {
 		
 		//Game State INITs for all gameStates
 		menuState = new MenuState(this);
-		//playState = new PlayState(this);
+		playState = new PlayState(this);
 		
 		//Sets the first state to be used when game starts up.
-		setState(MENUSTATE);
+		setState(PLAYSTATE);
 	}
 	
 	public void update(float delta){
@@ -57,6 +59,7 @@ public class GameStateManager {
 			break;
 		case PLAYSTATE:
 			gameState = playState;
+			playState.setGameLogic(new Gamelogic());
 			currentState = state;
 			break;
 		default:

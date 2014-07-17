@@ -1,20 +1,23 @@
-package com.staticvoidgames.topdown.game;
+package com.staticvoidgames.topdown.states;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.staticvoidgames.topdown.game.Entity;
+import com.staticvoidgames.topdown.game.Gamelogic;
 import com.staticvoidgames.topdown.managers.GameStateManager;
-import com.staticvoidgames.topdown.states.GameState;
 
-public class Fight extends GameState{
+public class PlayState extends GameState{
 
 	private static final float TIMESTEP = 0.01f;
 	private Gamelogic gamelogic;
-	private int remaining;
+	private float remaining=0;
 
-	public Fight(GameStateManager gsm,Gamelogic gamelogic) {
+	public PlayState(GameStateManager gsm) {
 		super(gsm);
-		this.gamelogic=gamelogic;
+		
 	}
-
+	public void setGameLogic(Gamelogic gamelogic){
+		this.gamelogic = gamelogic;
+	}
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
@@ -23,7 +26,8 @@ public class Fight extends GameState{
 
 	@Override
 	public void update(float delta) {
-		while (remaining>0) {
+		remaining+=delta;
+		while (remaining>TIMESTEP) {
 			remaining-= TIMESTEP;
 			gamelogic.update();
 		}
