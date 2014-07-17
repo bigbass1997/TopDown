@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
 import com.staticvoidgames.topdown.game.Entity;
 import com.staticvoidgames.topdown.game.Player;
+import com.staticvoidgames.topdown.game.Rock;
 import com.staticvoidgames.topdown.managers.GameStateManager;
 
 public class PlayState extends GameState{
@@ -17,6 +18,7 @@ public class PlayState extends GameState{
 	public PlayState(GameStateManager gsm) {
 		super(gsm);
 		new Player(100, 100);
+		new Rock(100, 600);
 	}
 	@Override
 	public void init() {
@@ -59,6 +61,7 @@ public class PlayState extends GameState{
 		for (int i = 0; i < entities.size(); i++) {
 			for (int j = i+1; j < entities.size(); j++) {
 				if(colision(entities.get(i),entities.get(j))){
+					System.out.println(i+":"+j);
 					entities.get(i).collide(entities.get(j));
 					entities.get(j).collide(entities.get(i));
 				}
@@ -73,10 +76,11 @@ public class PlayState extends GameState{
 	}
 	private boolean colision(Entity e1, Entity e2) {
 		Polygon[] c1=e1.getPolygons();
-		Polygon[] c2=e1.getPolygons();
+		Polygon[] c2=e2.getPolygons();
 		for (int i = 0; i < c1.length; i++) {
 			for (int j = 0; j < c2.length; j++) {
 				if(Intersector.overlapConvexPolygons(c1[i], c2[j])){
+					System.out.println("hit");
 					return true;
 				}
 			}

@@ -2,45 +2,41 @@ package com.staticvoidgames.topdown.game;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Polygon;
-import com.staticvoidgames.topdown.GraphicsMain;
 import com.staticvoidgames.topdown.managers.TextureManager;
 import com.staticvoidgames.topdown.states.PlayState;
 
-public class Shot implements Entity {
+public class Rock implements Entity{
 	Polygon polygon;
-	float xm;
-	float ym;
-	float x;
-	float y;
-	private boolean dead;
+	private float x, y;
+	private int life;
 	
-	public Shot(float x, float y,float xm,float ym) {
+	public Rock(float x, float y) {
+		life=10;
 		polygon= new Polygon(new float[]{
-				-1,1,
-				1,1,
-				1,-1,
-				-1,-1,
+				-20,-4,
+				-6,-20,
+				14,-13,
+				19,4,
+				5,19,
+				-15,18,
 		});
-		PlayState.entities.add(this);
 		polygon.translate(x, y);
-		this.x=x;
-		this.y=y;
-		this.xm=xm;
-		this.ym=ym;
+		PlayState.entities.add(this);
+		this.x = x;
+		this.y = y;
 	}
 
 
 	@Override
 	public void render(SpriteBatch batch) {
-		batch.draw(TextureManager.shotTexture, x-2.5f, y-2.5f, 2.5f*2, 2.5f*2);
+		batch.draw(TextureManager.rockTexture, x-20, y-20, 20*2, 20*2);
 	}
 
 
 	@Override
 	public void update() {
-		x+=xm;
-		y+=ym;
-		polygon.translate(xm, ym);
+		y-=0.1f;
+		polygon.translate(0, -0.1f);
 	}
 
 	@Override
@@ -50,20 +46,19 @@ public class Shot implements Entity {
 
 	@Override
 	public void collide( Entity entity) {
-		entity.hit(1);
-		dead=true;
-	}
-
-
-	@Override
-	public void hit(int damage) {
 		
 	}
 
 
 	@Override
-	public boolean isdead() {
-		return dead||y>GraphicsMain.SIZE;
+	public void hit(int damage) {
+		life-=damage;
 	}
-	
+
+
+	@Override
+	public boolean isdead() {
+		return life<0;
+	}
+
 }
