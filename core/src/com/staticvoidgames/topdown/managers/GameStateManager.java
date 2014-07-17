@@ -37,7 +37,7 @@ public class GameStateManager {
 		playState = new PlayState(this);
 		
 		//Sets the first state to be used when game starts up.
-		setState(MENUSTATE);
+		setState(PLAYSTATE);
 	}
 	
 	public void update(float delta){

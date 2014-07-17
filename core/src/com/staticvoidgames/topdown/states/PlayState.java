@@ -2,17 +2,20 @@ package com.staticvoidgames.topdown.states;
 
 import java.util.Vector;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
 import com.staticvoidgames.topdown.game.Entity;
+import com.staticvoidgames.topdown.game.Obstacle;
 import com.staticvoidgames.topdown.game.Player;
 import com.staticvoidgames.topdown.game.PowerUp;
 import com.staticvoidgames.topdown.game.Rock;
+import com.staticvoidgames.topdown.game.Switch;
 import com.staticvoidgames.topdown.managers.GameStateManager;
 
 public class PlayState extends GameState{
-
+	public static boolean[] Active=new boolean[3];
 	private static final float TIMESTEP = 0.01f;
 	private float remaining=0;
 
@@ -20,7 +23,9 @@ public class PlayState extends GameState{
 		super(gsm);
 		new Player(100, 100);
 		new Rock(100, 600);
-		new PowerUp(300, 250);
+		new PowerUp(100, 250);
+		new Obstacle(100, 400, 200, 400, 100, 300, 0);
+		new Switch(200, 300, 0);
 	}
 	@Override
 	public void init() {
@@ -51,6 +56,9 @@ public class PlayState extends GameState{
 		
 	}
 	public volatile static Vector<Entity> entities= new Vector<Entity>();
+	public static Color[] colors= new Color[]{
+		new Color(1, 0, 0, 1),new Color(0, 1, 0, 1),new Color(0, 0, 1, 1),
+	};
 	
 
 	/**

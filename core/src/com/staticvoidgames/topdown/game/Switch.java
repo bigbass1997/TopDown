@@ -1,28 +1,30 @@
+
 package com.staticvoidgames.topdown.game;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Polygon;
-import com.staticvoidgames.topdown.managers.TextureManager;
+import com.staticvoidgames.topdown.GraphicsMain;
 import com.staticvoidgames.topdown.states.PlayState;
 
-public class Rock implements Entity{
-	int color;
+public class Switch implements Entity{
+	
 	Polygon polygon;
 	private float x, y;
-	private int life;
+	boolean taken;
+	public PowerUpType powerUpType;
+	private int color;
 	
-	public Rock(float x, float y) {
-		life=10;
+	public Switch(float x, float y, int color) {
 		polygon= new Polygon(new float[]{
-				-20,-4,
-				-6,-20,
-				14,-13,
-				19,4,
-				5,19,
-				-15,18,
+				-10,-10,
+				-10,10,
+				10,10,
+				10,-10,
 		});
 		polygon.translate(x, y);
 		PlayState.entities.add(this);
+		powerUpType=PowerUpType.DOUBLE;
 		this.x = x;
 		this.y = y;
 	}
@@ -30,7 +32,12 @@ public class Rock implements Entity{
 
 	@Override
 	public void render(SpriteBatch batch) {
-		batch.draw(TextureManager.rockTexture, x-20, y-20, 20*2, 20*2);
+		batch.end();
+		GraphicsMain.shaperenderer.setColor(PlayState.colors[color]);
+		GraphicsMain.shaperenderer.begin(ShapeType.Filled);
+		GraphicsMain.shaperenderer.rect(x-10, y-10,20,20);
+		GraphicsMain.shaperenderer.end();
+		batch.begin();
 	}
 
 
@@ -53,13 +60,14 @@ public class Rock implements Entity{
 
 	@Override
 	public void hit(int damage) {
-		life-=damage;
+		PlayState.Active[color]=!PlayState.Active[color];
 	}
 
 
 	@Override
 	public boolean isdead() {
-		return life<0;
+		return y<0||taken;
 	}
+
 
 }
