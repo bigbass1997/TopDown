@@ -5,6 +5,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.staticvoidgames.topdown.managers.GameStateManager;
 
 public class GraphicsMain extends ApplicationAdapter {
@@ -13,11 +15,13 @@ public class GraphicsMain extends ApplicationAdapter {
 	//(X,Y) Position of all objects originates in their BOTTOM LEFT corner as well
 	public OrthographicCamera camera;
 	public static SpriteBatch batch;
+	public static ShapeRenderer shaperenderer;
 	
 	//GameStateManager aka GSM. Manager to manage other managers and gameStates.
 	private GameStateManager gsm;
 	
 	//Static floats to easily keep track of width and height of game screen.
+	public static final float HEIGHT=600;
 	public static float sWidth;
 	public static float sHeight;
 	
@@ -29,11 +33,12 @@ public class GraphicsMain extends ApplicationAdapter {
 		
 		//Sets up camera based on those values.
 		camera = new OrthographicCamera();
-		camera.setToOrtho(false, sWidth/sHeight, 1);
-		
+		camera.setToOrtho(false, sWidth*HEIGHT/sHeight, HEIGHT);
+		camera.position.set(1/2f*HEIGHT, 1/2f*HEIGHT, camera.position.z);
+		camera.update();
 		//INIT batch
 		batch = new SpriteBatch();
-		
+		shaperenderer= new ShapeRenderer();
 		//INIT GSM
 		gsm = new GameStateManager();
 	}
@@ -52,5 +57,12 @@ public class GraphicsMain extends ApplicationAdapter {
 		batch.begin();
 		gsm.draw(batch);
 		batch.end();
+		shaperenderer.setProjectionMatrix(camera.combined);
+		shaperenderer.begin(ShapeType.Filled);
+		shaperenderer.setColor(0, 0, 0, 1);
+		shaperenderer.rect(HEIGHT,0,HEIGHT,HEIGHT);
+		shaperenderer.rect(-HEIGHT,0,HEIGHT,HEIGHT);
+		shaperenderer.end();
+		
 	}
 }

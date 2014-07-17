@@ -2,22 +2,22 @@ package com.staticvoidgames.topdown.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.staticvoidgames.topdown.GraphicsMain;
 import com.staticvoidgames.topdown.managers.GameStateManager;
 
 public class MenuState extends GameState {
 	
 	private Texture texture;
-	private Sprite sprite;
+	//private Sprite sprite;
 
 	public MenuState(GameStateManager gsm) {
 		super(gsm);
 		
 		//Testing for rendering and positioning of coords.
 		texture = new Texture(Gdx.files.internal("test.png"));
-		sprite = new Sprite(texture);
-		sprite.setPosition(0, 0);
+		/*sprite = new Sprite(texture);
+		sprite.setPosition(0, 0);*/
 	}
 
 	@Override
@@ -35,7 +35,7 @@ public class MenuState extends GameState {
 	@Override
 	public void draw(SpriteBatch batch ) {
 		//Testing Image being drawn.
-		batch.draw(sprite, 0, 0, 1, 1);
+		batch.draw(texture, 0, 0, GraphicsMain.HEIGHT, GraphicsMain.HEIGHT);
 	}
 
 	@Override
