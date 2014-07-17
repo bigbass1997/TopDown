@@ -3,6 +3,7 @@ package com.staticvoidgames.topdown.states;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.staticvoidgames.topdown.GraphicsMain;
 import com.staticvoidgames.topdown.managers.GameStateManager;
 
 public class MenuState extends GameState {
@@ -33,8 +34,7 @@ public class MenuState extends GameState {
 	 */
 	@Override
 	public void draw(SpriteBatch batch) {
-		//Testing Image being drawn.
-		batch.draw(texture, 0, 0, 100, 100);
+		gsm.dm.String("Void Fighter", 140, 500, gsm.fm.fs72, 0xFFFFFFFF);
 	}
 
 	@Override

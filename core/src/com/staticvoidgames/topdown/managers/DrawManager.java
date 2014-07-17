@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.staticvoidgames.topdown.GraphicsMain;
 
 public class DrawManager {
 	
@@ -14,7 +13,7 @@ public class DrawManager {
 	
 	public DrawManager(ShapeRenderer sr, SpriteBatch batch){
 		this.sr = sr;
-		batch = GraphicsMain.batch;
+		this.batch = batch;
 	}
 	
 	//Draws a rectangle
