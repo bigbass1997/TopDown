@@ -7,4 +7,5 @@ public interface Entity {
 	public void render(SpriteBatch batch);
 	public void getY();
 	public void update();
+	public Circle[] getCircles();
 }
