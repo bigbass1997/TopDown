@@ -21,7 +21,7 @@ public class GraphicsMain extends ApplicationAdapter {
 	private GameStateManager gsm;
 	
 	//Static floats to easily keep track of width and height of game screen.
-	public static final float HEIGHT=600;
+	public static final float SIZE=600;
 	public static float sWidth;
 	public static float sHeight;
 	
@@ -33,8 +33,8 @@ public class GraphicsMain extends ApplicationAdapter {
 		
 		//Sets up camera based on those values.
 		camera = new OrthographicCamera();
-		camera.setToOrtho(false, sWidth*HEIGHT/sHeight, HEIGHT);
-		camera.position.set(1/2f*HEIGHT, 1/2f*HEIGHT, camera.position.z);
+		camera.setToOrtho(false, sWidth*SIZE/sHeight, SIZE);
+		camera.position.set(1/2f*SIZE, 1/2f*SIZE, camera.position.z);
 		camera.update();
 		//INIT batch
 		batch = new SpriteBatch();
@@ -59,10 +59,35 @@ public class GraphicsMain extends ApplicationAdapter {
 		batch.end();
 		shaperenderer.setProjectionMatrix(camera.combined);
 		shaperenderer.begin(ShapeType.Filled);
-		shaperenderer.setColor(0, 0, 0, 1);
-		shaperenderer.rect(HEIGHT,0,HEIGHT,HEIGHT);
-		shaperenderer.rect(-HEIGHT,0,HEIGHT,HEIGHT);
+		shaperenderer.setColor(0, 0, 1, 1);
+		if(sWidth>sHeight){
+			shaperenderer.rect(SIZE,0,SIZE,SIZE);
+			shaperenderer.rect(-SIZE,0,SIZE,SIZE);
+		}
+		else{
+			shaperenderer.rect(0,SIZE,SIZE,SIZE);
+			shaperenderer.rect(0,-SIZE,SIZE,SIZE);
+		}
 		shaperenderer.end();
 		
+	}
+	@Override
+	public void resize(int width, int height) {
+		//INITs width and height vars
+		sWidth = Gdx.graphics.getWidth();
+		sHeight = Gdx.graphics.getHeight();
+		
+		//Sets up camera based on those values.
+		if(sWidth>sHeight){
+			camera.setToOrtho(false, sWidth*SIZE/sHeight, SIZE);
+			camera.position.set(1/2f*SIZE, 1/2f*SIZE, camera.position.z);
+			camera.update();
+		}
+		else{
+			camera.setToOrtho(false, SIZE, SIZE*sHeight/sWidth);
+			camera.position.set(1/2f*SIZE, 1/2f*SIZE, camera.position.z);
+			camera.update();
+		}
+		super.resize(width, height);
 	}
 }

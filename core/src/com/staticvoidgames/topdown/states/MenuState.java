@@ -35,7 +35,7 @@ public class MenuState extends GameState {
 	@Override
 	public void draw(SpriteBatch batch ) {
 		//Testing Image being drawn.
-		batch.draw(texture, 0, 0, GraphicsMain.HEIGHT, GraphicsMain.HEIGHT);
+		batch.draw(texture, 0, 0, GraphicsMain.SIZE, GraphicsMain.SIZE);
 	}
 
 	@Override
