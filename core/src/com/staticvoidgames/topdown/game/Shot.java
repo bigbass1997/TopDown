@@ -1,39 +1,54 @@
 package com.staticvoidgames.topdown.game;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Polygon;
 import com.staticvoidgames.topdown.GraphicsMain;
 import com.staticvoidgames.topdown.managers.TextureManager;
 import com.staticvoidgames.topdown.states.PlayState;
 
 public class Shot implements Entity {
-	Circle circle;
-	private float xm;
-	private float ym;
-	public Shot(float x, float y, float xm, float ym) {
+	Polygon polygon;
+	float xm;
+	float ym;
+	float x;
+	float y;
+	
+	public Shot(float x, float y,float xm,float ym) {
+		polygon= new Polygon(new float[]{
+				-1,1,
+				1,1,
+				1,-1,
+				-1,-1,
+		});
+		PlayState.entities.add(this);
+		polygon.translate(x, y);
+		this.x=x;
+		this.y=y;
 		this.xm=xm;
 		this.ym=ym;
-		circle= new Circle(x, y, 3);
-		PlayState.entities.add(this);
-		
 	}
+
+
 	@Override
 	public void render(SpriteBatch batch) {
-		batch.draw(TextureManager.shotTexture, circle.x-circle.radius, circle.y-circle.radius, circle.radius*2, circle.radius*2);
+		batch.draw(TextureManager.shotTexture, x-2.5f, y-2.5f, 2.5f*2, 2.5f*2);
 	}
+
 
 	@Override
 	public void update() {
-		circle.x+=xm;
-		circle.y+=ym;
+		x+=xm;
+		y+=ym;
+		polygon.translate(xm, ym);
 	}
 
 	@Override
-	public Circle[] getCircles() {
-		return new Circle[]{circle};
+	public Polygon[] getPolygons() {
+		return new Polygon[]{polygon};
 	}
 
 	@Override
-	public void collide(double angle1to2, Entity entity) {
+	public void collide( Entity entity) {
 		
 	}
 
@@ -42,9 +57,11 @@ public class Shot implements Entity {
 	public void hit(int damage) {
 		
 	}
+
+
 	@Override
 	public boolean isdead() {
-		return circle.y>GraphicsMain.SIZE;
+		return y>GraphicsMain.SIZE;
 	}
 	
 }

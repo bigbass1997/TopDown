@@ -3,6 +3,8 @@ package com.staticvoidgames.topdown.states;
 import java.util.Vector;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Polygon;
 import com.staticvoidgames.topdown.game.Circle;
 import com.staticvoidgames.topdown.game.Entity;
 import com.staticvoidgames.topdown.game.Player;
@@ -58,8 +60,8 @@ public class PlayState extends GameState{
 		for (int i = 0; i < entities.size(); i++) {
 			for (int j = i+1; j < entities.size(); j++) {
 				if(colision(entities.get(i),entities.get(j))){
-					entities.get(i).collide(angle1to2,entities.get(j));
-					entities.get(j).collide(Math.PI+angle1to2,entities.get(i));
+					entities.get(i).collide(entities.get(j));
+					entities.get(j).collide(entities.get(i));
 				}
 			}
 		}
@@ -70,14 +72,12 @@ public class PlayState extends GameState{
 		}
 		//System.out.println(entities.size());
 	}
-	private double angle1to2;
 	private boolean colision(Entity e1, Entity e2) {
-		Circle[] c1=e1.getCircles();
-		Circle[] c2=e1.getCircles();
+		Polygon[] c1=e1.getPolygons();
+		Polygon[] c2=e1.getPolygons();
 		for (int i = 0; i < c1.length; i++) {
 			for (int j = 0; j < c2.length; j++) {
-				if(Math.abs(c1[i].x-c2[j].x)<c1[i].radius+c2[j].radius&&Math.abs(c1[i].y-c2[j].y)<c1[i].radius+c2[j].radius&&Math.hypot(c1[i].x-c2[j].x, c1[i].y-c2[j].y)<c1[i].radius+c2[j].radius){
-					angle1to2=Math.atan2((c1[i].y-c2[j].y),c1[i].x-c2[j].x);
+				if(Intersector.overlapConvexPolygons(c1[i], c2[j])){
 					return true;
 				}
 			}

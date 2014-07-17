@@ -1,6 +1,7 @@
 package com.staticvoidgames.topdown.game;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Polygon;
 import com.staticvoidgames.topdown.managers.TextureManager;
 import com.staticvoidgames.topdown.states.PlayState;
 
@@ -10,22 +11,32 @@ import com.staticvoidgames.topdown.states.PlayState;
  *
  */
 public class Player implements Entity{
-	Circle circle;
+	Polygon polygon;
 	float xm;
 	float ym;
+	float x;
+	float y;
 	private int timer=10;
 	private int cooldown=100;
 	
 	public Player(float x, float y) {
-		circle= new Circle(x,y,10);
+		polygon= new Polygon(new float[]{
+				-10,10,
+				10,10,
+				10,-10,
+				-10,-10,
+		});
+		polygon.translate(x, y);
 		PlayState.entities.add(this);
+		this.x=x;
+		this.y=y;
 		xm=0.1f;
 	}
 
 
 	@Override
 	public void render(SpriteBatch batch) {
-		batch.draw(TextureManager.playerTexture, circle.x-circle.radius, circle.y-circle.radius, circle.radius*2, circle.radius*2);
+		batch.draw(TextureManager.playerTexture, x-10, y-10, 10*2, 10*2);
 	}
 
 
@@ -34,19 +45,21 @@ public class Player implements Entity{
 		timer--;
 		if(timer==0){
 			timer+=cooldown;
-			new Shot(circle.x, circle.y+17, 0, 3);
+			new Shot(x, y+17, 0, 3);
 		}
-		circle.x+=xm;
-		circle.y+=ym;
+		
+		x+=xm;
+		y+=ym;
+		polygon.translate(xm, ym);
 	}
 
 	@Override
-	public Circle[] getCircles() {
-		return new Circle[]{circle};
+	public Polygon[] getPolygons() {
+		return new Polygon[]{polygon};
 	}
 
 	@Override
-	public void collide(double angle1to2, Entity entity) {
+	public void collide( Entity entity) {
 		
 	}
 
