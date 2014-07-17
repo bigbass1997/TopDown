@@ -2,7 +2,6 @@ package com.staticvoidgames.topdown.managers;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.staticvoidgames.topdown.game.Gamelogic;
 import com.staticvoidgames.topdown.states.GameState;
 import com.staticvoidgames.topdown.states.MenuState;
 import com.staticvoidgames.topdown.states.PlayState;
@@ -59,7 +58,6 @@ public class GameStateManager {
 			break;
 		case PLAYSTATE:
 			gameState = playState;
-			playState.setGameLogic(new Gamelogic());
 			currentState = state;
 			break;
 		default:

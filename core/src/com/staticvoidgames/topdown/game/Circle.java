@@ -5,9 +5,9 @@ package com.staticvoidgames.topdown.game;
  *
  */
 public class Circle {
-	float x;
-	float y;
-	float radius;
+	public float x;
+	public float y;
+	public float radius;
 	
 	public Circle(float x, float y, int radius) {
 		this.x=x;

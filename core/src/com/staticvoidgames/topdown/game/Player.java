@@ -2,6 +2,7 @@ package com.staticvoidgames.topdown.game;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.staticvoidgames.topdown.managers.TextureManager;
+import com.staticvoidgames.topdown.states.PlayState;
 
 /**
  * Someone had to do this
@@ -17,7 +18,7 @@ public class Player implements Entity{
 	
 	public Player(float x, float y) {
 		circle= new Circle(x,y,10);
-		Gamelogic.entities.add(this);
+		PlayState.entities.add(this);
 		xm=0.1f;
 	}
 

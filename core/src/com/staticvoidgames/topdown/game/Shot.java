@@ -2,6 +2,7 @@ package com.staticvoidgames.topdown.game;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.staticvoidgames.topdown.managers.TextureManager;
+import com.staticvoidgames.topdown.states.PlayState;
 
 public class Shot implements Entity {
 	Circle circle;
@@ -11,7 +12,7 @@ public class Shot implements Entity {
 		this.xm=xm;
 		this.ym=ym;
 		circle= new Circle(x, y, 3);
-		Gamelogic.entities.add(this);
+		PlayState.entities.add(this);
 		
 	}
 	@Override
