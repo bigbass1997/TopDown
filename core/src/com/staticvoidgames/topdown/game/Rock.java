@@ -14,7 +14,7 @@ public class Rock implements Entity{
 	private float ym;
 	
 	public Rock(float x, float y,float xm,float ym) {
-		life=100;
+		life=10;
 		polygon= new Polygon(new float[]{
 				-20,-4,
 				-6,-20,
@@ -43,8 +43,8 @@ public class Rock implements Entity{
 		x+=xm;
 		y+=ym;
 		polygon.translate(xm, ym);
-		if(x<0)xm*=-1;
-		if(x+50>GraphicsMain.SIZE)xm*=-1;
+		if(x<0)xm=Math.abs(xm);
+		if(x>GraphicsMain.SIZE)xm=-Math.abs(xm);
 	}
 
 	@Override
@@ -60,7 +60,6 @@ public class Rock implements Entity{
 
 	@Override
 	public void hit(int damage) {
-		xm*=-1;
 		life-=damage;
 		if(life<0)new PowerUp(x, y, ((int) y)%3);
 	}

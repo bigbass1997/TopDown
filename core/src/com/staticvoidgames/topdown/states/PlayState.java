@@ -8,11 +8,11 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
 import com.staticvoidgames.topdown.GraphicsMain;
+import com.staticvoidgames.topdown.game.EnemiShip;
 import com.staticvoidgames.topdown.game.Entity;
 import com.staticvoidgames.topdown.game.Obstacle;
 import com.staticvoidgames.topdown.game.Player;
 import com.staticvoidgames.topdown.game.PowerUp;
-import com.staticvoidgames.topdown.game.Rock;
 import com.staticvoidgames.topdown.game.Switch;
 import com.staticvoidgames.topdown.game.Turret;
 import com.staticvoidgames.topdown.managers.GameStateManager;
@@ -74,19 +74,13 @@ public class PlayState extends GameState{
 	 */
 	public void tick(){
 		int a=(seed/0xfff+400000)*20/(time+1000);
-		System.out.println(a);
 		time++;
+		if(time%(a+1000)==50)new EnemiShip(0, 300);
 		if(time%(a+500)==50){
 			new Obstacle(Math.abs((time*time*(seed+time))%(GraphicsMain.SIZE-200)), 650, 200, 10, time%5, time%2==0);
 			new PowerUp(Math.abs((time*time*(seed+time))%(GraphicsMain.SIZE-200))+100, 700, time%5);
 		}
 		if(time%(a+500)==0)new Obstacle(Math.abs((time*time*(seed+time))%GraphicsMain.SIZE), 650, 10, 200, time%5, time%2==0);
-		if(time%(a+340)==10){
-			new Rock(-50, 0,0.5f,0.05f);
-		}
-		if(time%(a+340)==170){
-			new Rock(650, 0,-0.5f,0.05f);
-		}
 		if(time%(a+1000)==15){
 			new Turret(Math.abs((time*time*(seed+2*time+1))%GraphicsMain.SIZE), 650, time%5, Active[time%5]);
 			new PowerUp(Math.abs((time*time*(seed+2*time+1))%GraphicsMain.SIZE), 700,time%5);
@@ -109,7 +103,7 @@ public class PlayState extends GameState{
 			if(entities.get(i).isdead())entities.remove(i);
 			else i++;
 		}
-		//System.out.println(entities.size());
+		System.out.println(entities.size());
 		if(player.life<0)Gameover();
 	}
 	private void Gameover() {

@@ -50,7 +50,7 @@ public class Shot implements Entity {
 
 	@Override
 	public void collide( Entity entity) {
-		entity.hit(1);
+		entity.hit(2);
 		dead=true;
 	}
 
