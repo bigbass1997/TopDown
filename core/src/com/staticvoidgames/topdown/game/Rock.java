@@ -2,6 +2,7 @@ package com.staticvoidgames.topdown.game;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Polygon;
+import com.staticvoidgames.topdown.GraphicsMain;
 import com.staticvoidgames.topdown.managers.TextureManager;
 import com.staticvoidgames.topdown.states.PlayState;
 
@@ -9,9 +10,11 @@ public class Rock implements Entity{
 	Polygon polygon;
 	private float x, y;
 	private int life;
+	private float xm;
+	private float ym;
 	
-	public Rock(float x, float y) {
-		life=10;
+	public Rock(float x, float y,float xm,float ym) {
+		life=100;
 		polygon= new Polygon(new float[]{
 				-20,-4,
 				-6,-20,
@@ -24,6 +27,8 @@ public class Rock implements Entity{
 		PlayState.entities.add(this);
 		this.x = x;
 		this.y = y;
+		this.xm = xm;
+		this.ym = ym;
 	}
 
 
@@ -35,8 +40,11 @@ public class Rock implements Entity{
 
 	@Override
 	public void update() {
-		y-=0.2f;
-		polygon.translate(0, -0.2f);
+		x+=xm;
+		y+=ym;
+		polygon.translate(xm, ym);
+		if(x<0)xm*=-1;
+		if(x+50>GraphicsMain.SIZE)xm*=-1;
 	}
 
 	@Override
@@ -46,12 +54,13 @@ public class Rock implements Entity{
 
 	@Override
 	public void collide(Entity entity) {
-		
+		entity.hit(1);
 	}
 
 
 	@Override
 	public void hit(int damage) {
+		xm*=-1;
 		life-=damage;
 		if(life<0)new PowerUp(x, y, ((int) y)%3);
 	}
@@ -59,7 +68,7 @@ public class Rock implements Entity{
 
 	@Override
 	public boolean isdead() {
-		return life<0||y<-50;
+		return life<0||y>GraphicsMain.SIZE+50;
 	}
 
 }
