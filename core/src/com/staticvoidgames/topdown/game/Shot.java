@@ -63,7 +63,7 @@ public class Shot implements Entity {
 
 	@Override
 	public boolean isdead() {
-		return dead||y>GraphicsMain.SIZE;
+		return dead||y>GraphicsMain.SIZE||y<0;
 	}
 	
 }

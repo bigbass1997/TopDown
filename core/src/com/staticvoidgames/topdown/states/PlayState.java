@@ -6,28 +6,30 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
+import com.staticvoidgames.topdown.GraphicsMain;
 import com.staticvoidgames.topdown.game.Entity;
 import com.staticvoidgames.topdown.game.Obstacle;
 import com.staticvoidgames.topdown.game.Player;
 import com.staticvoidgames.topdown.game.PowerUp;
 import com.staticvoidgames.topdown.game.Rock;
 import com.staticvoidgames.topdown.game.Switch;
+import com.staticvoidgames.topdown.game.Turret;
 import com.staticvoidgames.topdown.managers.GameStateManager;
 
 public class PlayState extends GameState{
 	public static boolean[] Active=new boolean[3];
 	private static final float TIMESTEP = 0.005f;
 	private float remaining=0;
-	
+	public static Player player;
 	
 
 	public PlayState(GameStateManager gsm) {
 		super(gsm);
-		new Player(100, 100);
+		player=new Player(100, 100);
 	}
 	@Override
 	public void init() {
-		seed= (int) (Math.random()*10000);
+		seed= (int) (Math.random()*1000000);
 		time=0;
 	}
 
@@ -65,10 +67,12 @@ public class PlayState extends GameState{
 	 */
 	public void tick(){
 		time++;
-		if(time%199==0)new Obstacle((time*time*(seed-time))%600, 600, 200, 50, time%3, time%2==0);
-		if(time%419==30)new PowerUp((time*time*(seed-time))%600, 600,time%3);
-		if(time%799==10)new Rock((time*time*(seed-time-10))%600, 650);
-		if(time%611==10)new Switch((100*time&seed)%600, 600, time%3);
+		if(time%449==201)new Obstacle(Math.abs((time*time*(seed+time))%GraphicsMain.SIZE), 650, 200, 10, time%3, time%2==0);
+		if(time%449==0)new Obstacle(Math.abs((time*time*(seed+time))%GraphicsMain.SIZE), 650, 10, 200, time%3, time%2==0);
+		if(time%719==30)new PowerUp(Math.abs((time*time*(seed+time))%GraphicsMain.SIZE), 650,time%3);
+		if(time%799==10)new Rock(Math.abs((time*time*(seed+time+10))%GraphicsMain.SIZE), 650);
+		if(time%2099==15)new Turret(Math.abs((time*time*(seed+2*time+1))%GraphicsMain.SIZE), 650, time%3, Active[time%3]);
+		if(time%811==10)new Switch(Math.abs((100*time&seed)%GraphicsMain.SIZE), 650, time%3);
 		for (int i = 0; i < entities.size(); i++) {
 			entities.get(i).update();
 		}

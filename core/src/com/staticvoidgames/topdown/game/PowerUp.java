@@ -60,10 +60,10 @@ public class PowerUp implements Entity{
 			Player player = (Player)entity;
 			switch (powerUpType) {
 			case 0:
-				player.shotamount+=199;
+				player.shotamount+=2.0f;
 				break;
 			case 1:
-				player.speed+=0.1f;
+				player.speed+=0.5f;
 				break;
 			case 2:
 				player.cooldown=player.cooldown/2+10;

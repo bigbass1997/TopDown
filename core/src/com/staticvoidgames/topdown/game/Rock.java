@@ -6,7 +6,6 @@ import com.staticvoidgames.topdown.managers.TextureManager;
 import com.staticvoidgames.topdown.states.PlayState;
 
 public class Rock implements Entity{
-	int color;
 	Polygon polygon;
 	private float x, y;
 	private int life;
@@ -46,7 +45,7 @@ public class Rock implements Entity{
 	}
 
 	@Override
-	public void collide( Entity entity) {
+	public void collide(Entity entity) {
 		
 	}
 
@@ -54,12 +53,13 @@ public class Rock implements Entity{
 	@Override
 	public void hit(int damage) {
 		life-=damage;
+		if(life<0)new PowerUp(x, y, ((int) y)%3);
 	}
 
 
 	@Override
 	public boolean isdead() {
-		return life<0;
+		return life<0||y<-50;
 	}
 
 }

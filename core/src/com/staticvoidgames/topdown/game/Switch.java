@@ -20,10 +20,10 @@ public class Switch implements Entity{
 		immune=0;
 		this.color=color;
 		polygon= new Polygon(new float[]{
-				-10,-10,
-				-10,10,
-				10,10,
-				10,-10,
+				-10,0,
+				0,10,
+				10,0,
+				0,-10,
 		});
 		polygon.translate(x, y);
 		PlayState.entities.add(this);
@@ -38,7 +38,7 @@ public class Switch implements Entity{
 		if(immune<0)GraphicsMain.shaperenderer.setColor(PlayState.colors[color]);
 		else GraphicsMain.shaperenderer.setColor(Color.WHITE);
 		GraphicsMain.shaperenderer.begin(ShapeType.Filled);
-		GraphicsMain.shaperenderer.rect(x-10, y-10,20,20);
+		GraphicsMain.shaperenderer.rect(x-10, y-10, 14, 14, 10, 10, 45);
 		GraphicsMain.shaperenderer.end();
 		batch.begin();
 	}
