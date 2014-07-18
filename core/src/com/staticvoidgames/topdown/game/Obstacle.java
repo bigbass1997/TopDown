@@ -11,12 +11,23 @@ public class Obstacle implements Entity {
 	boolean activated;
 	int color;
 	private boolean ReactTo;
-	public Obstacle(float x1, float y1, float x2, float y2, float x3, float y3, int color) {
+	private float x;
+	private float y;
+	private float w;
+	private float h;
+	public Obstacle(float x, float y, float w, float h, int color,boolean Reacto) {
+		this.ReactTo=Reacto;
 		polygon= new Polygon(new float[]{
-				x1,y1,
-				x2,y2,
-				x2,y3,
+				0,0,
+				0,h,
+				w,h,
+				w,0,
 		});
+		this.x=x;
+		this.y=y;
+		this.w=w;
+		this.h=h;
+		polygon.translate(x, y);
 		this.color=color;
 		PlayState.entities.add(this);
 	}
@@ -28,7 +39,7 @@ public class Obstacle implements Entity {
 		GraphicsMain.shaperenderer.setColor(PlayState.colors[color]);
 		if(PlayState.Active[color]==ReactTo)GraphicsMain.shaperenderer.begin(ShapeType.Filled);
 		else GraphicsMain.shaperenderer.begin(ShapeType.Line);
-		GraphicsMain.shaperenderer.triangle(polygon.getTransformedVertices()[0],polygon.getTransformedVertices()[1],polygon.getTransformedVertices()[2],polygon.getTransformedVertices()[3],polygon.getTransformedVertices()[4],polygon.getTransformedVertices()[5]);
+		GraphicsMain.shaperenderer.rect(x, y, w, h);
 		GraphicsMain.shaperenderer.end();
 		batch.begin();
 	}
@@ -36,6 +47,7 @@ public class Obstacle implements Entity {
 
 	@Override
 	public void update() {
+		y-=0.2f;
 		polygon.translate(0, -0.2f);
 	}
 
@@ -59,7 +71,7 @@ public class Obstacle implements Entity {
 
 	@Override
 	public boolean isdead() {
-		return false;
+		return y+w<0;
 	}
 
 }

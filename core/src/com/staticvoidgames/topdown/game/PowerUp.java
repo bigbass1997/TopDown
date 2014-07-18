@@ -10,9 +10,19 @@ public class PowerUp implements Entity{
 	Polygon polygon;
 	private float x, y;
 	boolean taken;
-	public PowerUpType powerUpType;
-	
-	public PowerUp(float x, float y) {
+	/**
+	 * 0-->increase shot amount.
+	 * 1-->increase speed.
+	 * 2-->increase fire-rate.
+	 */
+	public int powerUpType;
+	/**
+	 * @param powerUpType
+	 * 0-->increase shot amount.
+	 * 1-->increase speed.
+	 * 2-->increase fire-rate.
+	 */
+	public PowerUp(float x, float y,int powerUpType) {
 		polygon= new Polygon(new float[]{
 				-10,-10,
 				-10,10,
@@ -21,7 +31,7 @@ public class PowerUp implements Entity{
 		});
 		polygon.translate(x, y);
 		PlayState.entities.add(this);
-		powerUpType=PowerUpType.DOUBLE;
+		this.powerUpType=powerUpType;
 		this.x = x;
 		this.y = y;
 	}
@@ -48,7 +58,19 @@ public class PowerUp implements Entity{
 	public void collide( Entity entity) {
 		if(entity.getClass()==Player.class){
 			Player player = (Player)entity;
-			player.powerUpType=powerUpType;
+			switch (powerUpType) {
+			case 0:
+				player.shotamount+=199;
+				break;
+			case 1:
+				player.speed+=0.1f;
+				break;
+			case 2:
+				player.cooldown=player.cooldown/2+10;
+				break;
+			default:
+				break;
+			}
 			taken=true;
 		}
 	}

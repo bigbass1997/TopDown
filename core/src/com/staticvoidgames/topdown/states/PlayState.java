@@ -16,20 +16,19 @@ import com.staticvoidgames.topdown.managers.GameStateManager;
 
 public class PlayState extends GameState{
 	public static boolean[] Active=new boolean[3];
-	private static final float TIMESTEP = 0.01f;
+	private static final float TIMESTEP = 0.005f;
 	private float remaining=0;
+	
+	
 
 	public PlayState(GameStateManager gsm) {
 		super(gsm);
 		new Player(100, 100);
-		new Rock(100, 600);
-		new PowerUp(100, 250);
-		new Obstacle(100, 400, 200, 400, 100, 300, 0);
-		new Switch(200, 300, 0);
 	}
 	@Override
 	public void init() {
-		
+		seed= (int) (Math.random()*10000);
+		time=0;
 	}
 
 	@Override
@@ -57,14 +56,19 @@ public class PlayState extends GameState{
 	}
 	public volatile static Vector<Entity> entities= new Vector<Entity>();
 	public static Color[] colors= new Color[]{
-		new Color(1, 0, 0, 1),new Color(0, 1, 0, 1),new Color(0, 0, 1, 1),
+		new Color(1, 0, 0, 1),new Color(0, 1, 0, 1),new Color(1, 0, 1, 1),
 	};
-	
-
+	int time;
+	private int seed;
 	/**
 	 * Multiple calls are necessary, depending on the time passed.
 	 */
 	public void tick(){
+		time++;
+		if(time%199==0)new Obstacle((time*time*(seed-time))%600, 600, 200, 50, time%3, time%2==0);
+		if(time%419==30)new PowerUp((time*time*(seed-time))%600, 600,time%3);
+		if(time%799==10)new Rock((time*time*(seed-time-10))%600, 650);
+		if(time%611==10)new Switch((100*time&seed)%600, 600, time%3);
 		for (int i = 0; i < entities.size(); i++) {
 			entities.get(i).update();
 		}

@@ -1,6 +1,7 @@
 
 package com.staticvoidgames.topdown.game;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Polygon;
@@ -12,10 +13,12 @@ public class Switch implements Entity{
 	Polygon polygon;
 	private float x, y;
 	boolean taken;
-	public PowerUpType powerUpType;
 	private int color;
+	private int immune;
 	
 	public Switch(float x, float y, int color) {
+		immune=0;
+		this.color=color;
 		polygon= new Polygon(new float[]{
 				-10,-10,
 				-10,10,
@@ -24,7 +27,6 @@ public class Switch implements Entity{
 		});
 		polygon.translate(x, y);
 		PlayState.entities.add(this);
-		powerUpType=PowerUpType.DOUBLE;
 		this.x = x;
 		this.y = y;
 	}
@@ -33,7 +35,8 @@ public class Switch implements Entity{
 	@Override
 	public void render(SpriteBatch batch) {
 		batch.end();
-		GraphicsMain.shaperenderer.setColor(PlayState.colors[color]);
+		if(immune<0)GraphicsMain.shaperenderer.setColor(PlayState.colors[color]);
+		else GraphicsMain.shaperenderer.setColor(Color.WHITE);
 		GraphicsMain.shaperenderer.begin(ShapeType.Filled);
 		GraphicsMain.shaperenderer.rect(x-10, y-10,20,20);
 		GraphicsMain.shaperenderer.end();
@@ -43,6 +46,7 @@ public class Switch implements Entity{
 
 	@Override
 	public void update() {
+		immune--;
 		y-=0.2f;
 		polygon.translate(0, -0.2f);
 	}
@@ -60,7 +64,9 @@ public class Switch implements Entity{
 
 	@Override
 	public void hit(int damage) {
-		PlayState.Active[color]=!PlayState.Active[color];
+		if(immune<0){PlayState.Active[color]=!PlayState.Active[color];
+			immune=100;
+		}
 	}
 
 

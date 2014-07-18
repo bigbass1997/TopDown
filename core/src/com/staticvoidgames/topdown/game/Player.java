@@ -16,17 +16,16 @@ import com.staticvoidgames.topdown.states.PlayState;
 public class Player implements Entity{
 
 	private static final float BASICSPEED = 1.0f;
-	PowerUpType powerUpType;
+	public int shotamount=100;
 	Polygon polygon;
 	private float x, y, xm, ym;
 	
 	private int timer = 10;
-	private int cooldown = 100;
+	int cooldown = 1000;
 	
-	private float speed = 1.0f;
+	float speed = 1.0f;
 	
 	public Player(float x, float y) {
-		powerUpType=PowerUpType.BASIC;
 		polygon= new Polygon(new float[]{
 				-10,10,
 				10,10,
@@ -49,31 +48,26 @@ public class Player implements Entity{
 	@Override
 	public void update() {
 		timer--;
+		
+		if(speed>1)speed-=0.001;
+		if(cooldown<100)cooldown++;
+		if(shotamount>100)shotamount--;
 		speed=BASICSPEED;
 		if(timer==0){
-			switch (powerUpType) {
-			case BASIC:
-				new Shot(x, y+17, 0, 3);
-				break;
-			case DOUBLE:
-				new Shot(x-5, y+17, 0, 3);
-				new Shot(x+5, y+17, 0, 3);
-				break;
-			case TRIPLE:
-				new Shot(x-10, y+17, 0, 3);
-				new Shot(x, y+17, 0, 3);
-				new Shot(x+10, y+17, 0, 3);
-				break;
-			case SPEED:
-				speed=BASICSPEED*2;
-				break;
-			default:
-				break;
-			
+			if((shotamount/100)%2==0){
+					for (int i = 0; i < (shotamount/100)/2; i++) {
+						new Shot(-i*10+x-5, y+17, 0, 2+i/10f);
+						new Shot(+i*10+x+5, y+17, 0, 2+i/10f);
+					}
 			}
-			timer+=cooldown;
-			
-			
+			else{
+				new Shot(x, y+17, 0, 2);
+				for (int i = 0; i < (shotamount/100-1)/2; i++) {
+					new Shot(-i*10+x-10, y+17, 0, 2+i/10f);
+					new Shot(+i*10+x+10, y+17, 0, 2+i/10f);
+				}
+			}
+			timer+=cooldown/10;
 		}
 		
 		x+=xm;
