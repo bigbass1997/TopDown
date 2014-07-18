@@ -4,6 +4,8 @@ import java.util.Vector;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
 import com.staticvoidgames.topdown.GraphicsMain;
@@ -17,7 +19,7 @@ import com.staticvoidgames.topdown.game.Turret;
 import com.staticvoidgames.topdown.managers.GameStateManager;
 
 public class PlayState extends GameState{
-	public static boolean[] Active=new boolean[3];
+	public static boolean[] Active=new boolean[5];
 	private static final float TIMESTEP = 0.005f;
 	private float remaining=0;
 	public static Player player;
@@ -49,6 +51,12 @@ public class PlayState extends GameState{
 		for (int i = 0; i < torender.length; i++) {
 			torender[i].render(batch);
 		}
+		batch.end();
+		GraphicsMain.shaperenderer.setColor(Color.RED);
+		GraphicsMain.shaperenderer.begin(ShapeType.Filled);
+		GraphicsMain.shaperenderer.rect(0, 0, player.life,10);
+		GraphicsMain.shaperenderer.end();
+		batch.begin();
 	}
 
 	@Override
@@ -58,7 +66,7 @@ public class PlayState extends GameState{
 	}
 	public volatile static Vector<Entity> entities= new Vector<Entity>();
 	public static Color[] colors= new Color[]{
-		new Color(1, 0, 0, 1),new Color(0, 1, 0, 1),new Color(1, 0, 1, 1),
+		new Color(1, 0, 0, 1),new Color(0, 1, 0, 1),new Color(1, 0, 1, 1),new Color(1, 0.5f, 0, 1),new Color(0.5f, 0.5f, 1, 1),
 	};
 	int time;
 	private int seed;
@@ -67,19 +75,18 @@ public class PlayState extends GameState{
 	 */
 	public void tick(){
 		time++;
-		if(time%449==201)new Obstacle(Math.abs((time*time*(seed+time))%GraphicsMain.SIZE), 650, 200, 10, time%3, time%2==0);
-		if(time%449==0)new Obstacle(Math.abs((time*time*(seed+time))%GraphicsMain.SIZE), 650, 10, 200, time%3, time%2==0);
-		if(time%719==30)new PowerUp(Math.abs((time*time*(seed+time))%GraphicsMain.SIZE), 650,time%3);
+		if(time%839==201)new Obstacle(Math.abs((time*time*(seed+time))%GraphicsMain.SIZE), 650, 200, 10, time%5, time%2==0);
+		if(time%889==0)new Obstacle(Math.abs((time*time*(seed+time))%GraphicsMain.SIZE), 650, 10, 200, time%5, time%2==0);
+		if(time%719==30)new PowerUp(Math.abs((time*time*(seed+time))%GraphicsMain.SIZE), 650,time%5);
 		if(time%799==10)new Rock(Math.abs((time*time*(seed+time+10))%GraphicsMain.SIZE), 650);
-		if(time%2099==15)new Turret(Math.abs((time*time*(seed+2*time+1))%GraphicsMain.SIZE), 650, time%3, Active[time%3]);
-		if(time%811==10)new Switch(Math.abs((100*time&seed)%GraphicsMain.SIZE), 650, time%3);
+		if(time%2099==15)new Turret(Math.abs((time*time*(seed+2*time+1))%GraphicsMain.SIZE), 650, time%5, Active[time%5]);
+		if(time%811==10)new Switch(Math.abs((100*time&seed)%GraphicsMain.SIZE), 650, time%5);
 		for (int i = 0; i < entities.size(); i++) {
 			entities.get(i).update();
 		}
 		for (int i = 0; i < entities.size(); i++) {
 			for (int j = i+1; j < entities.size(); j++) {
 				if(colision(entities.get(i),entities.get(j))){
-					System.out.println(i+":"+j);
 					entities.get(i).collide(entities.get(j));
 					entities.get(j).collide(entities.get(i));
 				}
@@ -91,6 +98,10 @@ public class PlayState extends GameState{
 			else i++;
 		}
 		//System.out.println(entities.size());
+		if(player.life<0)Gameover();
+	}
+	private void Gameover() {
+		
 	}
 	private boolean colision(Entity e1, Entity e2) {
 		Polygon[] c1=e1.getPolygons();
@@ -98,7 +109,6 @@ public class PlayState extends GameState{
 		for (int i = 0; i < c1.length; i++) {
 			for (int j = 0; j < c2.length; j++) {
 				if(Intersector.overlapConvexPolygons(c1[i], c2[j])){
-					System.out.println("hit");
 					return true;
 				}
 			}

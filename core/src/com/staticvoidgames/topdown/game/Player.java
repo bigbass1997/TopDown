@@ -26,8 +26,10 @@ public class Player implements Entity{
 	int cooldown = 1000;
 	
 	float speed = 0.5f;
+	public int life;
 	
 	public Player(float x, float y) {
+		life=600;
 		polygon= new Polygon(new float[]{
 				-10,10,
 				10,10,
@@ -50,7 +52,6 @@ public class Player implements Entity{
 	@Override
 	public void update() {
 		timer--;
-		
 		if(speed>0.5f)speed-=0.0005f;
 		if(cooldown<1000)cooldown++;
 		if(shotamount>1.002f)shotamount-=0.0005f;
@@ -93,13 +94,13 @@ public class Player implements Entity{
 
 	@Override
 	public void collide(Entity entity) {
-		
+		entity.hit(1);
 	}
 
 
 	@Override
 	public void hit(int damage) {
-		
+		life-=damage;
 	}
 
 

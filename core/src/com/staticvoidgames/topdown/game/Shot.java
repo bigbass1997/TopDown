@@ -16,10 +16,10 @@ public class Shot implements Entity {
 	
 	public Shot(float x, float y,float xm,float ym) {
 		polygon= new Polygon(new float[]{
-				-1,1,
-				1,1,
-				1,-1,
-				-1,-1,
+				-2.5f,2.5f,
+				2.5f,2.5f,
+				2.5f,-2.5f,
+				-2.5f,-2.5f,
 		});
 		PlayState.entities.add(this);
 		polygon.translate(x, y);

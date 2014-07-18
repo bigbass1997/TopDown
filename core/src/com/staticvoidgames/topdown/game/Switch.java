@@ -12,12 +12,11 @@ public class Switch implements Entity{
 	
 	Polygon polygon;
 	private float x, y;
-	boolean taken;
 	private int color;
-	private int immune;
+	private boolean used;
 	
 	public Switch(float x, float y, int color) {
-		immune=0;
+		used=false;
 		this.color=color;
 		polygon= new Polygon(new float[]{
 				-10,0,
@@ -35,7 +34,7 @@ public class Switch implements Entity{
 	@Override
 	public void render(SpriteBatch batch) {
 		batch.end();
-		if(immune<0)GraphicsMain.shaperenderer.setColor(PlayState.colors[color]);
+		if(!used)GraphicsMain.shaperenderer.setColor(PlayState.colors[color]);
 		else GraphicsMain.shaperenderer.setColor(Color.WHITE);
 		GraphicsMain.shaperenderer.begin(ShapeType.Filled);
 		GraphicsMain.shaperenderer.rect(x-10, y-10, 14, 14, 10, 10, 45);
@@ -46,7 +45,6 @@ public class Switch implements Entity{
 
 	@Override
 	public void update() {
-		immune--;
 		y-=0.2f;
 		polygon.translate(0, -0.2f);
 	}
@@ -64,15 +62,16 @@ public class Switch implements Entity{
 
 	@Override
 	public void hit(int damage) {
-		if(immune<0){PlayState.Active[color]=!PlayState.Active[color];
-			immune=100;
+		if(!used){
+			PlayState.Active[color]=!PlayState.Active[color];
+			used=true;
 		}
 	}
 
 
 	@Override
 	public boolean isdead() {
-		return y<0||taken;
+		return y<0;
 	}
 
 

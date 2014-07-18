@@ -59,7 +59,7 @@ public class Obstacle implements Entity {
 
 	@Override
 	public void collide( Entity entity) {
-		
+		entity.hit(1);
 	}
 
 
