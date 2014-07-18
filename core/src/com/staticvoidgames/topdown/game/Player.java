@@ -31,10 +31,9 @@ public class Player implements Entity{
 	public Player(float x, float y) {
 		life=600;
 		polygon= new Polygon(new float[]{
-				-10,10,
-				10,10,
-				10,-10,
-				-10,-10,
+				0,9,
+				-8,-6,
+				8,-6,
 		});
 		polygon.translate(x, y);
 		PlayState.entities.add(this);
@@ -45,7 +44,7 @@ public class Player implements Entity{
 
 	@Override
 	public void render(SpriteBatch batch) {
-		batch.draw(TextureManager.playerTexture, x-10, y-10, 10*2, 10*2);
+		batch.draw(TextureManager.playerTexture, x-9, y-10, 19, 10*2);
 	}
 
 
