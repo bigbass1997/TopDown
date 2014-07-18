@@ -39,7 +39,7 @@ public class PowerUp implements Entity{
 
 	@Override
 	public void render(SpriteBatch batch) {
-		batch.draw(TextureManager.playerTexture, x-10, y-10, 10*2, 10*2);
+		batch.draw(TextureManager.powerupTexture, x-10, y-10, 10*2, 10*2);
 	}
 
 
