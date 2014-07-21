@@ -1,4 +1,4 @@
-package com.staticvoidgames.topdown.game;
+package com.staticvoidgames.topdown.entities;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Polygon;
 import com.staticvoidgames.topdown.GraphicsMain;
 import com.staticvoidgames.topdown.states.PlayState;
 
-public class EnemiShip implements Entity {
+public class EnemyShip implements Entity {
 	private int cooldown = 100;
 	Polygon polygon;
 	boolean activated;
@@ -17,7 +17,7 @@ public class EnemiShip implements Entity {
 	private int time;
 	private float xm;
 	private int life;
-	public EnemiShip(float x, float y) {
+	public EnemyShip(float x, float y) {
 		life=20;
 		time=cooldown;
 		polygon= new Polygon(new float[]{

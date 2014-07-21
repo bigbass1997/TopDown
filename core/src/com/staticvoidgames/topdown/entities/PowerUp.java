@@ -1,4 +1,4 @@
-package com.staticvoidgames.topdown.game;
+package com.staticvoidgames.topdown.entities;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Polygon;

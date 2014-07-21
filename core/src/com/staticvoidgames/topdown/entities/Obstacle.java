@@ -1,33 +1,32 @@
-package com.staticvoidgames.topdown.game;
+package com.staticvoidgames.topdown.entities;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Polygon;
 import com.staticvoidgames.topdown.GraphicsMain;
 import com.staticvoidgames.topdown.states.PlayState;
 
-public class Turret implements Entity {
-	private int cooldown = 20;
+public class Obstacle implements Entity {
 	Polygon polygon;
 	boolean activated;
 	int color;
 	private boolean ReactTo;
-	final int size=10;
 	private float x;
 	private float y;
-	private int time;
-	public Turret(float x, float y, int color,boolean Reacto) {
-		time=cooldown;
+	private float w;
+	private float h;
+	public Obstacle(float x, float y, float w, float h, int color,boolean Reacto) {
 		this.ReactTo=Reacto;
 		polygon= new Polygon(new float[]{
-				-size,-size,
-				-size,size,
-				size,size,
-				size,-size,
+				0,0,
+				0,h,
+				w,h,
+				w,0,
 		});
 		this.x=x;
 		this.y=y;
+		this.w=w;
+		this.h=h;
 		polygon.translate(x, y);
 		this.color=color;
 		PlayState.entities.add(this);
@@ -40,12 +39,7 @@ public class Turret implements Entity {
 		GraphicsMain.shaperenderer.setColor(PlayState.colors[color]);
 		if(PlayState.Active[color]==ReactTo)GraphicsMain.shaperenderer.begin(ShapeType.Filled);
 		else GraphicsMain.shaperenderer.begin(ShapeType.Line);
-		GraphicsMain.shaperenderer.rect(x-size, y-size, size*2, size*2);
-		GraphicsMain.shaperenderer.end();
-		GraphicsMain.shaperenderer.setColor(Color.WHITE);
-		if(Math.abs(PlayState.player.x-x)<-(PlayState.player.y-y))GraphicsMain.shaperenderer.begin(ShapeType.Filled);
-		else GraphicsMain.shaperenderer.begin(ShapeType.Line);
-		GraphicsMain.shaperenderer.circle(x, y, size);
+		GraphicsMain.shaperenderer.rect(x, y, w, h);
 		GraphicsMain.shaperenderer.end();
 		batch.begin();
 	}
@@ -53,19 +47,6 @@ public class Turret implements Entity {
 
 	@Override
 	public void update() {
-		if(ReactTo==PlayState.Active[color]){
-			if(time==0){
-				float Dx= PlayState.player.x-x;
-				float Dy= PlayState.player.y-y;
-				float d=(float) Math.hypot(Dx, Dy);
-				Dx/=d;
-				Dy/=d;
-				if(Math.abs(Dx)<-Dy)new Shot(x, y-(size+3), Dx*0.5f, Dy*0.5f);
-				time=cooldown;
-			}
-			else time--;
-		}
-		
 		y-=0.2f;
 		polygon.translate(0, -0.2f);
 	}
@@ -78,7 +59,7 @@ public class Turret implements Entity {
 
 	@Override
 	public void collide( Entity entity) {
-		
+		entity.hit(1);
 	}
 
 
@@ -90,7 +71,7 @@ public class Turret implements Entity {
 
 	@Override
 	public boolean isdead() {
-		return y+size<0;
+		return y+h<0;
 	}
 
 }

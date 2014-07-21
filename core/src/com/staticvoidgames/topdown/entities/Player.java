@@ -1,4 +1,4 @@
-package com.staticvoidgames.topdown.game;
+package com.staticvoidgames.topdown.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;

@@ -8,13 +8,13 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
 import com.staticvoidgames.topdown.GraphicsMain;
-import com.staticvoidgames.topdown.game.EnemiShip;
-import com.staticvoidgames.topdown.game.Entity;
-import com.staticvoidgames.topdown.game.Obstacle;
-import com.staticvoidgames.topdown.game.Player;
-import com.staticvoidgames.topdown.game.PowerUp;
-import com.staticvoidgames.topdown.game.Switch;
-import com.staticvoidgames.topdown.game.Turret;
+import com.staticvoidgames.topdown.entities.EnemyShip;
+import com.staticvoidgames.topdown.entities.Entity;
+import com.staticvoidgames.topdown.entities.Obstacle;
+import com.staticvoidgames.topdown.entities.Player;
+import com.staticvoidgames.topdown.entities.PowerUp;
+import com.staticvoidgames.topdown.entities.Switch;
+import com.staticvoidgames.topdown.entities.Turret;
 import com.staticvoidgames.topdown.managers.GameStateManager;
 
 public class PlayState extends GameState{
@@ -75,7 +75,7 @@ public class PlayState extends GameState{
 	public void tick(){
 		int a=(seed/0xfff+400000)*20/(time+1000);
 		time++;
-		if(time%(a+1000)==50)new EnemiShip(0, 300);
+		if(time%(a+1000)==50)new EnemyShip(0, 300);
 		if(time%(a+500)==50){
 			new Obstacle(Math.abs((time*time*(seed+time))%(GraphicsMain.SIZE-200)), 650, 200, 10, time%5, time%2==0);
 			new PowerUp(Math.abs((time*time*(seed+time))%(GraphicsMain.SIZE-200))+100, 700, time%5);
