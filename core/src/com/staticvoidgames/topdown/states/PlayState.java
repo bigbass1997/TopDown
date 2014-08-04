@@ -27,7 +27,7 @@ public class PlayState extends GameState{
 	private static final float TIMESTEP = 0.005f;
 	private float remaining=0;
 	public static Player player;
-	private static int score=2500;
+	private static int score=0;
 
 	public PlayState(GameStateManager gsm) {
 		super(gsm);
@@ -61,8 +61,8 @@ public class PlayState extends GameState{
 		GraphicsMain.shaperenderer.rect(0, 0, player.life,10);
 		GraphicsMain.shaperenderer.end();
 		batch.begin();
-		
-		gsm.dm.String("SCORE  "+score, 0, GraphicsMain.SIZE, gsm.fm.fs32, 0xFFFFFFFF);
+		gsm.dm.String("SCORE  "+score, 5, GraphicsMain.SIZE, gsm.fm.fs32, 0xff0000FF);
+		gsm.dm.String("SCORE  "+score, 0, GraphicsMain.SIZE, gsm.fm.fs32, 0xFFFFFF99);
 	}
 
 	@Override
@@ -89,7 +89,7 @@ public class PlayState extends GameState{
 	private boolean BossIsThere=false;
 	private Entity Boss;
 	private int n=0;
-	public static int level=3;
+	public static int level=1;
 	/**
 	 * Multiple calls are necessary, depending on the time passed.
 	 */
