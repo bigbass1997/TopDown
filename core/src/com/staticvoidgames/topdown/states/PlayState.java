@@ -6,23 +6,26 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
 import com.staticvoidgames.topdown.GraphicsMain;
-import com.staticvoidgames.topdown.entities.EnemyShip;
 import com.staticvoidgames.topdown.entities.Entity;
+import com.staticvoidgames.topdown.entities.FirstBoss;
 import com.staticvoidgames.topdown.entities.Obstacle;
 import com.staticvoidgames.topdown.entities.Player;
 import com.staticvoidgames.topdown.entities.PowerUp;
+import com.staticvoidgames.topdown.entities.SecondBoss;
 import com.staticvoidgames.topdown.entities.Switch;
 import com.staticvoidgames.topdown.entities.Turret;
 import com.staticvoidgames.topdown.managers.GameStateManager;
 
 public class PlayState extends GameState{
+	public static float ScrollSpeed=0.2f;
 	public static boolean[] Active=new boolean[5];
 	private static final float TIMESTEP = 0.005f;
 	private float remaining=0;
 	public static Player player;
-	
+	private static int score=500;
 
 	public PlayState(GameStateManager gsm) {
 		super(gsm);
@@ -56,6 +59,8 @@ public class PlayState extends GameState{
 		GraphicsMain.shaperenderer.rect(0, 0, player.life,10);
 		GraphicsMain.shaperenderer.end();
 		batch.begin();
+		
+		gsm.dm.String("SCORE  "+score, 0, GraphicsMain.SIZE, gsm.fm.fs32, 0xFFFFFFFF);
 	}
 
 	@Override
@@ -64,29 +69,59 @@ public class PlayState extends GameState{
 		
 	}
 	public volatile static Vector<Entity> entities= new Vector<Entity>();
-	public static Color[] colors= new Color[]{
-		new Color(1, 0, 0, 1),new Color(0, 1, 0, 1),new Color(1, 0, 1, 1),new Color(1, 0.5f, 0, 1),new Color(0.5f, 0.5f, 1, 1),
-	};
+
+	public static Color getcolor(int n){
+		float r=MathUtils.cos(n);
+		float g=MathUtils.cos(n+MathUtils.PI*2/3f);
+		float b=MathUtils.cos(n-MathUtils.PI*2/3f);
+		return new Color(r, g, b, 1);
+	}
+	public static Color getOppositcolor(int n){
+		float r=MathUtils.cos(n);
+		float g=MathUtils.cos(n+MathUtils.PI*2/3f);
+		float b=MathUtils.cos(n-MathUtils.PI*2/3f);
+		return new Color(1-r, 1-g, 1-b, 1);
+	}
 	int time;
 	private int seed;
+	private boolean BossIsThere=false;
+	private Entity Boss;
+	private int n=0;
+	public static int level=1;
 	/**
 	 * Multiple calls are necessary, depending on the time passed.
 	 */
 	public void tick(){
-		int a=(seed/0xfff+400000)*20/(time+1000);
+		ScrollSpeed=(level+2)/10f;
+		if(time%10==0)score++;
+		
 		time++;
-		if(time%(a+1000)==50)new EnemyShip(0, 300);
-		if(time%(a+500)==50){
-			new Obstacle(Math.abs((time*time*(seed+time))%(GraphicsMain.SIZE-200)), 650, 200, 10, time%5, time%2==0);
-			new PowerUp(Math.abs((time*time*(seed+time))%(GraphicsMain.SIZE-200))+100, 700, time%5);
+		if(BossIsThere){
+			if(Boss.isdead()){
+				BossIsThere=false;
+				level++;
+				player.losepowerups();
+				System.out.println("levelup");
+			}
 		}
-		if(time%(a+500)==0)new Obstacle(Math.abs((time*time*(seed+time))%GraphicsMain.SIZE), 650, 10, 200, time%5, time%2==0);
-		if(time%(a+1000)==15){
-			new Turret(Math.abs((time*time*(seed+2*time+1))%GraphicsMain.SIZE), 650, time%5, Active[time%5]);
-			new PowerUp(Math.abs((time*time*(seed+2*time+1))%GraphicsMain.SIZE), 700,time%5);
-			new Switch(Math.abs((time*time*(seed+2*time+1)+300)%GraphicsMain.SIZE), 650, time%5);
+		if(!BossIsThere){
+			
+			if(score>500*level+(level-1)*level*100){
+				switch (level) {
+				case 1:
+					Boss=new FirstBoss(-150, 350);
+					break;
+				case 2:
+					Boss=new SecondBoss(-150, 350);
+					break;
+				}
+				BossIsThere=true;
+			}
+			
+			if((time*ScrollSpeed)%100>=25&&((time-1)*ScrollSpeed)%100<25){
+				createnextpart();
+			}
 		}
-		if(time%(a+500)==10)new Switch(Math.abs((100*time+50)%GraphicsMain.SIZE), 650, time%5);
 		for (int i = 0; i < entities.size(); i++) {
 			entities.get(i).update();
 		}
@@ -103,8 +138,48 @@ public class PlayState extends GameState{
 			if(entities.get(i).isdead())entities.remove(i);
 			else i++;
 		}
-		System.out.println(entities.size());
+		if(entities.size()>50)System.out.println(entities.size());
 		if(player.life<0)Gameover();
+	}
+	private void createnextpart(){
+		System.out.println("nP");
+		//&(n-1) is the same as %n if n is a power of 2
+		n=(int) (time*ScrollSpeed/60)+seed&1023+(seed>>>1+(time&31));
+		int i=0;
+		while(i<4){
+			if(level>=2){
+				if((n+i)%3==0)new Obstacle(((n%3+1)*GraphicsMain.SIZE/4f)-2.5f, 450, 5, 100, n%level, Active[n%level]);
+			}
+			if(level>=3){
+				if(((n+i)&31)==3&&i!=3){
+					if(n%2==0){
+						new Turret(i*GraphicsMain.SIZE/4f+50, 450, n%level, Active[n%level]);
+						new PowerUp(i*GraphicsMain.SIZE/4f+50, 500,n%level);
+						i++;
+						new Switch(i*GraphicsMain.SIZE/4f+50, 430, n%level);
+					}
+					else{
+						new Switch(i*GraphicsMain.SIZE/4f+50, 430, n%level);
+						i++;
+						new Turret(i*GraphicsMain.SIZE/4f+50, 450, n%level, Active[n%level]);
+						new PowerUp(i*GraphicsMain.SIZE/4f+50, 500,n%level);
+						
+					}
+					i++;
+				}
+				if(i>3)return;
+			}
+			if(((n+i)&15)==1){
+				new Switch(i*GraphicsMain.SIZE/4f+50, 450, n%level);
+				i++;
+			}
+			else if(((n+i)&7)==0){
+				new Obstacle(i*GraphicsMain.SIZE/4f, 500, 100, 5,  n%level,Active[ n%level] );
+				new PowerUp(i*GraphicsMain.SIZE/4f+50, 520, n%5);
+			}
+			if(i>3)return;
+			i++;
+		}
 	}
 	private void Gameover() {
 		

@@ -34,7 +34,7 @@ public class MenuState extends GameState {
 	 */
 	@Override
 	public void draw(SpriteBatch batch) {
-		gsm.dm.String("Void Fighter", 140, 500, gsm.fm.fs72, 0xFFFFFFFF);
+		gsm.dm.String("Void Fighter", 40, 350, gsm.fm.fs72, 0xFFFFFFFF);
 	}
 
 	@Override

@@ -8,7 +8,7 @@ import com.staticvoidgames.topdown.GraphicsMain;
 import com.staticvoidgames.topdown.states.PlayState;
 
 public class Turret implements Entity {
-	private int cooldown = 20;
+	private int cooldown = 50;
 	Polygon polygon;
 	boolean activated;
 	int color;
@@ -37,13 +37,13 @@ public class Turret implements Entity {
 	@Override
 	public void render(SpriteBatch batch) {
 		batch.end();
-		GraphicsMain.shaperenderer.setColor(PlayState.colors[color]);
+		GraphicsMain.shaperenderer.setColor(PlayState.getcolor(color));
 		if(PlayState.Active[color]==ReactTo)GraphicsMain.shaperenderer.begin(ShapeType.Filled);
 		else GraphicsMain.shaperenderer.begin(ShapeType.Line);
 		GraphicsMain.shaperenderer.rect(x-size, y-size, size*2, size*2);
 		GraphicsMain.shaperenderer.end();
 		GraphicsMain.shaperenderer.setColor(Color.WHITE);
-		if(Math.abs(PlayState.player.x-x)<-(PlayState.player.y-y))GraphicsMain.shaperenderer.begin(ShapeType.Filled);
+		if(0<-(PlayState.player.y-y))GraphicsMain.shaperenderer.begin(ShapeType.Filled);
 		else GraphicsMain.shaperenderer.begin(ShapeType.Line);
 		GraphicsMain.shaperenderer.circle(x, y, size);
 		GraphicsMain.shaperenderer.end();
@@ -60,14 +60,16 @@ public class Turret implements Entity {
 				float d=(float) Math.hypot(Dx, Dy);
 				Dx/=d;
 				Dy/=d;
-				if(Math.abs(Dx)<-Dy)new Shot(x, y-(size+3), Dx*0.5f, Dy*0.5f);
+				if(Dy<-PlayState.ScrollSpeed){
+					new Shot(x, y-(size+10), Dx, Dy);
+				}
 				time=cooldown;
 			}
 			else time--;
 		}
 		
-		y-=0.2f;
-		polygon.translate(0, -0.2f);
+		y-=PlayState.ScrollSpeed;
+		polygon.translate(0, -PlayState.ScrollSpeed);
 	}
 
 	@Override

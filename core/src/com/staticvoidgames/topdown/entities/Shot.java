@@ -1,6 +1,8 @@
 package com.staticvoidgames.topdown.entities;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
 import com.staticvoidgames.topdown.GraphicsMain;
 import com.staticvoidgames.topdown.managers.TextureManager;
@@ -16,12 +18,13 @@ public class Shot implements Entity {
 	
 	public Shot(float x, float y,float xm,float ym) {
 		polygon= new Polygon(new float[]{
-				-2.5f,2.5f,
-				2.5f,2.5f,
-				2.5f,-2.5f,
-				-2.5f,-2.5f,
+				-2.5f,10f,
+				2.5f,10f,
+				2.5f,-10f,
+				-2.5f,-10f,
 		});
 		PlayState.entities.add(this);
+		polygon.rotate(MathUtils.atan2(ym, xm)*MathUtils.radiansToDegrees-90);
 		polygon.translate(x, y);
 		this.x=x;
 		this.y=y;
@@ -32,7 +35,7 @@ public class Shot implements Entity {
 
 	@Override
 	public void render(SpriteBatch batch) {
-		batch.draw(TextureManager.shotTexture, x-2.5f, y-2.5f, 2.5f*2, 2.5f*2);
+		batch.draw(new TextureRegion(TextureManager.shotTexture), x-2.5f, y-10f,0,0, 2.5f*2, 10f*2,1,1,MathUtils.atan2(ym, xm)*MathUtils.radiansToDegrees-90);
 	}
 
 

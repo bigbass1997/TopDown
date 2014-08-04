@@ -15,7 +15,7 @@ import com.staticvoidgames.topdown.states.PlayState;
  */
 public class Player implements Entity{
 
-	public float shotamount=1;
+	public int shotamount=1;
 	Polygon polygon;
 	float x;
 	float y;
@@ -23,13 +23,13 @@ public class Player implements Entity{
 	private float ym;
 	
 	private int timer = 10;
-	int cooldown = 1000;
+	int cooldown = 100;
 	
 	float speed = 0.5f;
 	public int life;
 	
 	public Player(float x, float y) {
-		life=600;
+		life=400;
 		polygon= new Polygon(new float[]{
 				0,9,
 				-8,-6,
@@ -51,25 +51,22 @@ public class Player implements Entity{
 	@Override
 	public void update() {
 		timer--;
-		if(speed>0.5f)speed-=0.0005f;
-		if(cooldown<1000)cooldown++;
-		if(shotamount>1.002f)shotamount-=0.0005f;
 		if(timer==0){
 			int s=(int) Math.floor(shotamount);
 			if(s%2==0){
 					for (int i = 0; i < s/2; i++) {
-						new Shot(-i*10+x-5, y+17, 0, 1-i/10f);
-						new Shot(+i*10+x+5, y+17, 0, 1-i/10f);
+						new Shot(-i*10+x-5, y+20, 0, 1.5f-i/10f);
+						new Shot(+i*10+x+5, y+20, 0, 1.5f-i/10f);
 					}
 			}
 			else{
-				new Shot(x, y+17, 0, 1.1f);
+				new Shot(x, y+20, 0, 1.6f);
 				for (int i = 0; i < (s-1)/2; i++) {
-					new Shot(-i*10+x-10, y+17, 0, 1-i/10f);
-					new Shot(+i*10+x+10, y+17, 0, 1-i/10f);
+					new Shot(-i*10+x-10, y+20, 0, 1.5f-i/10f);
+					new Shot(+i*10+x+10, y+20, 0, 1.5f-i/10f);
 				}
 			}
-			timer+=cooldown/10;
+			timer+=cooldown;
 		}
 		
 		x+=xm;
@@ -85,7 +82,12 @@ public class Player implements Entity{
 			xm = 0.0f;
 		}
 	}
-
+	public int losepowerups(){
+		speed=0.5f;
+		shotamount=1;
+		cooldown=100;
+		return 0;
+	}
 	@Override
 	public Polygon[] getPolygons() {
 		return new Polygon[]{polygon};

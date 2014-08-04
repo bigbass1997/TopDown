@@ -45,8 +45,8 @@ public class PowerUp implements Entity{
 
 	@Override
 	public void update() {
-		y-=0.2f;
-		polygon.translate(0, -0.2f);
+		y-=PlayState.ScrollSpeed;
+		polygon.translate(0, -PlayState.ScrollSpeed);
 	}
 
 	@Override
@@ -60,7 +60,7 @@ public class PowerUp implements Entity{
 			Player player = (Player)entity;
 			switch (powerUpType) {
 			case 0:
-				player.shotamount+=2.0f;
+				player.shotamount+=1;
 				break;
 			case 1:
 				player.speed+=0.5f;

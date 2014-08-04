@@ -7,8 +7,9 @@ import com.badlogic.gdx.math.Polygon;
 import com.staticvoidgames.topdown.GraphicsMain;
 import com.staticvoidgames.topdown.states.PlayState;
 
-public class EnemyShip implements Entity {
-	private int cooldown = 100;
+public class FirstBoss implements Entity {
+	private int cooldown = 50;
+	int strength=0;
 	Polygon polygon;
 	boolean activated;
 	final int size=10;
@@ -17,8 +18,10 @@ public class EnemyShip implements Entity {
 	private int time;
 	private float xm;
 	private int life;
-	public EnemyShip(float x, float y) {
-		life=20;
+	boolean goright=true;
+	public FirstBoss(float x, float y) {
+		strength=1;
+		life=30;
 		time=cooldown;
 		polygon= new Polygon(new float[]{
 				-size,-size,
@@ -46,11 +49,18 @@ public class EnemyShip implements Entity {
 
 	@Override
 	public void update() {
-		if(time==0){
-			if(x>PlayState.player.x)xm=-0.2f;
-			else xm=0.2f;
-			new Shot(x, y-(size+3), 0, -1f);
-			time=cooldown;
+		if(time<0){
+			if(goright){
+				xm=0.2f;
+				if(x>300)goright=false;
+			}
+			else{
+				xm=-0.2f;
+				if(x<100)goright=true;
+			}
+			new Shot(x, y-(size+11), 0, -1.2f);
+			time=cooldown+200/strength;
+			strength++;
 		}
 		else time--;
 		x+=xm;

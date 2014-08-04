@@ -36,7 +36,7 @@ public class Obstacle implements Entity {
 	@Override
 	public void render(SpriteBatch batch) {
 		batch.end();
-		GraphicsMain.shaperenderer.setColor(PlayState.colors[color]);
+		GraphicsMain.shaperenderer.setColor(PlayState.getcolor(color));
 		if(PlayState.Active[color]==ReactTo)GraphicsMain.shaperenderer.begin(ShapeType.Filled);
 		else GraphicsMain.shaperenderer.begin(ShapeType.Line);
 		GraphicsMain.shaperenderer.rect(x, y, w, h);
@@ -47,8 +47,8 @@ public class Obstacle implements Entity {
 
 	@Override
 	public void update() {
-		y-=0.2f;
-		polygon.translate(0, -0.2f);
+		y-=PlayState.ScrollSpeed;
+		polygon.translate(0, -PlayState.ScrollSpeed);
 	}
 
 	@Override

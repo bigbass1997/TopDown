@@ -21,7 +21,7 @@ public class GraphicsMain extends ApplicationAdapter {
 	private GameStateManager gsm;
 	
 	//Static floats to easily keep track of width and height of game screen.
-	public static final float SIZE=600;
+	public static final float SIZE=400;
 	public static float sWidth;
 	public static float sHeight;
 	
