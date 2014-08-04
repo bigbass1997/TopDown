@@ -13,8 +13,8 @@ public class Rock implements Entity{
 	private float xm;
 	private float ym;
 	
-	public Rock(float x, float y,float xm,float ym) {
-		life=10;
+	public Rock(float x, float y,float xm,float ym,int life) {
+		this.life=life;
 		polygon= new Polygon(new float[]{
 				-20,-4,
 				-6,-20,

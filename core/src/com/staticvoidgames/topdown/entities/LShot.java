@@ -41,7 +41,7 @@ public class LShot implements Entity {
 		@Override
 		public void update() {
 			if(x!=targetx){
-				if(Math.abs(targetx-x)<1){
+				if(Math.abs(targetx-x)<speed){
 					polygon.translate(targetx-x, 0);
 					x=targetx;
 				}
