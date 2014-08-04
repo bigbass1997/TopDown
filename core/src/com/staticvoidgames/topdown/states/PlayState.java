@@ -31,6 +31,7 @@ public class PlayState extends GameState{
 
 	public PlayState(GameStateManager gsm) {
 		super(gsm);
+		this.gsm.mm.play(0);
 		player=new Player(100, 100);
 	}
 	@Override
