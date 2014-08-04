@@ -14,8 +14,10 @@ import com.staticvoidgames.topdown.entities.FirstBoss;
 import com.staticvoidgames.topdown.entities.Obstacle;
 import com.staticvoidgames.topdown.entities.Player;
 import com.staticvoidgames.topdown.entities.PowerUp;
+import com.staticvoidgames.topdown.entities.Rock;
 import com.staticvoidgames.topdown.entities.SecondBoss;
 import com.staticvoidgames.topdown.entities.Switch;
+import com.staticvoidgames.topdown.entities.ThirdBoss;
 import com.staticvoidgames.topdown.entities.Turret;
 import com.staticvoidgames.topdown.managers.GameStateManager;
 
@@ -25,7 +27,7 @@ public class PlayState extends GameState{
 	private static final float TIMESTEP = 0.005f;
 	private float remaining=0;
 	public static Player player;
-	private static int score=500;
+	private static int score=2500;
 
 	public PlayState(GameStateManager gsm) {
 		super(gsm);
@@ -87,7 +89,7 @@ public class PlayState extends GameState{
 	private boolean BossIsThere=false;
 	private Entity Boss;
 	private int n=0;
-	public static int level=1;
+	public static int level=3;
 	/**
 	 * Multiple calls are necessary, depending on the time passed.
 	 */
@@ -106,13 +108,17 @@ public class PlayState extends GameState{
 		}
 		if(!BossIsThere){
 			
-			if(score>500*level+(level-1)*level*100){
+			if(score>500*level+(level-1)*level*200){
 				switch (level) {
 				case 1:
 					Boss=new FirstBoss(-150, 350);
 					break;
 				case 2:
 					Boss=new SecondBoss(-150, 350);
+					break;
+				case 3:
+					Boss=new ThirdBoss();
+					new Rock(-50, 200, 0.1f, 0, 10000);
 					break;
 				}
 				BossIsThere=true;
@@ -138,21 +144,20 @@ public class PlayState extends GameState{
 			if(entities.get(i).isdead())entities.remove(i);
 			else i++;
 		}
-		if(entities.size()>50)System.out.println(entities.size());
+		if(entities.size()>200)System.out.println("Entities : "+entities.size());
 		if(player.life<0)Gameover();
 	}
 	private void createnextpart(){
-		System.out.println("nP");
 		//&(n-1) is the same as %n if n is a power of 2
 		n=(int) (time*ScrollSpeed/60)+seed&1023+(seed>>>1+(time&31));
 		int i=0;
 		while(i<4){
 			if(level>=2){
-				if((n+i)%3==0)new Obstacle(((n%3+1)*GraphicsMain.SIZE/4f)-2.5f, 450, 5, 100, n%level, Active[n%level]);
+				if(((n+i)&0x38)==0)new Obstacle(((n%3+1)*GraphicsMain.SIZE/4f)-2.5f, 450, 5, 100, n%level, Active[n%level]);
 			}
 			if(level>=3){
-				if(((n+i)&31)==3&&i!=3){
-					if(n%2==0){
+				if(((n+i)&0xf0)==0&&i!=3){
+					if((n&1)==0){
 						new Turret(i*GraphicsMain.SIZE/4f+50, 450, n%level, Active[n%level]);
 						new PowerUp(i*GraphicsMain.SIZE/4f+50, 500,n%level);
 						i++;
@@ -173,7 +178,7 @@ public class PlayState extends GameState{
 				new Switch(i*GraphicsMain.SIZE/4f+50, 450, n%level);
 				i++;
 			}
-			else if(((n+i)&7)==0){
+			else if(((n+i)&3)==0){
 				new Obstacle(i*GraphicsMain.SIZE/4f, 500, 100, 5,  n%level,Active[ n%level] );
 				new PowerUp(i*GraphicsMain.SIZE/4f+50, 520, n%5);
 			}

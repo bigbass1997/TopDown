@@ -12,15 +12,13 @@ public class PowerUp implements Entity{
 	boolean taken;
 	/**
 	 * 0-->increase shot amount.
-	 * 1-->increase speed.
-	 * 2-->increase fire-rate.
+	 * 1-->increase fire-rate.
 	 */
 	public int powerUpType;
 	/**
 	 * @param powerUpType
 	 * 0-->increase shot amount.
-	 * 1-->increase speed.
-	 * 2-->increase fire-rate.
+	 * 1-->increase fire-rate.
 	 */
 	public PowerUp(float x, float y,int powerUpType) {
 		polygon= new Polygon(new float[]{
@@ -63,10 +61,7 @@ public class PowerUp implements Entity{
 				player.shotamount+=1;
 				break;
 			case 1:
-				player.speed+=0.5f;
-				break;
-			case 2:
-				player.cooldown=player.cooldown/2+10;
+				player.cooldown=player.cooldown/2+20;
 				break;
 			default:
 				break;

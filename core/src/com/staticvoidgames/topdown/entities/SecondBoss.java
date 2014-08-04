@@ -8,7 +8,7 @@ import com.staticvoidgames.topdown.GraphicsMain;
 import com.staticvoidgames.topdown.states.PlayState;
 
 public class SecondBoss implements Entity {
-	private int cooldown = 20;
+	private int cooldown = 25;
 	int strength=0;
 	Polygon polygon;
 	final int size=10;
@@ -20,7 +20,7 @@ public class SecondBoss implements Entity {
 	boolean goright=true;
 	public SecondBoss(float x, float y) {
 		strength=1;
-		life=30;
+		life=45;
 		time=cooldown;
 		polygon= new Polygon(new float[]{
 				-size,-size,
@@ -57,9 +57,15 @@ public class SecondBoss implements Entity {
 				xm=-0.2f;
 				if(x<100)goright=true;
 			}
-			new LShot(x, y+(size+11), PlayState.player.x, 2 , false);
-			new Shot(x, y-(size+11), 0, -1.2f);
-			time=cooldown+250/strength;
+			if(Math.abs(PlayState.player.x-x)>100){
+				new LShot(x, y+(size+11), PlayState.player.x, 2 , false);
+				new LShot(x, y-(size+11), PlayState.player.x, 2 , false);
+			}
+			else{
+				new Shot(x+5, y-(size+11), 0, -1.2f);
+				new Shot(x-5, y-(size+11), 0, -1.2f);
+			}
+			time=cooldown+500/strength;
 			strength++;
 		}
 		else time--;

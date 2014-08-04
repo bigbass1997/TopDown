@@ -49,31 +49,35 @@ public class Player implements Entity{
 
 
 	@Override
-	public void update() {
+	public void update(){
+		Input input = Gdx.input;
 		timer--;
-		if(timer==0){
-			int s=(int) Math.floor(shotamount);
-			if(s%2==0){
-					for (int i = 0; i < s/2; i++) {
-						new Shot(-i*10+x-5, y+20, 0, 1.5f-i/10f);
-						new Shot(+i*10+x+5, y+20, 0, 1.5f-i/10f);
-					}
-			}
-			else{
-				new Shot(x, y+20, 0, 1.6f);
-				for (int i = 0; i < (s-1)/2; i++) {
-					new Shot(-i*10+x-10, y+20, 0, 1.5f-i/10f);
-					new Shot(+i*10+x+10, y+20, 0, 1.5f-i/10f);
+		if(timer<0){
+			if(input.isKeyPressed(Keys.SPACE)){
+				int s= shotamount;
+				float basespeed=1.5f;
+				if(s%2==0){
+						for (int i = 0; i < s/2; i++) {
+							new Shot(-i*10+x-5, y+20, 0, basespeed-i/10f);
+							new Shot(+i*10+x+5, y+20, 0, basespeed-i/10f);
+						}
 				}
+				else{
+					new Shot(x, y+20, 0, basespeed);
+					for (int i = 0; i < (s-1)/2; i++) {
+						new Shot(-i*10+x-10, y+20, 0, basespeed-i/10f);
+						new Shot(+i*10+x+10, y+20, 0, basespeed-i/10f);
+					}
+				}
+				timer=cooldown;
 			}
-			timer+=cooldown;
 		}
 		
 		x+=xm;
 		y+=ym;
 		polygon.translate(xm, ym);
 		
-		Input input = Gdx.input;
+		
 		if(input.isKeyPressed(Keys.LEFT) || input.isKeyPressed(Keys.A)){
 			xm = -speed;
 		}else if(input.isKeyPressed(Keys.RIGHT) || input.isKeyPressed(Keys.D)){
@@ -81,6 +85,7 @@ public class Player implements Entity{
 		}else{
 			xm = 0.0f;
 		}
+		
 	}
 	public int losepowerups(){
 		speed=0.5f;
