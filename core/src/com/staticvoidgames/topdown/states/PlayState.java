@@ -150,25 +150,26 @@ public class PlayState extends GameState{
 	}
 	private void createnextpart(){
 		//&(n-1) is the same as %n if n is a power of 2
-		n=(int) (time*ScrollSpeed/60)+seed&1023+(seed>>>1+(time&31));
+		n=(int) (time*ScrollSpeed/60)+(seed>>>(1+(time&31)));
+		System.out.println(Integer.toBinaryString(n&3));
 		int i=0;
 		while(i<4){
 			if(level>=2){
-				if(((n+i)&0x38)==0)new Obstacle(((n%3+1)*GraphicsMain.SIZE/4f)-2.5f, 450, 5, 100, n%level, Active[n%level]);
+				if(((n+i)&0x38)==0)new Obstacle(((n%3+1)*GraphicsMain.SIZE/4f)-2.5f, 450, 5, 100, n%level, (n&4)==0);
 			}
 			if(level>=3){
-				if(((n+i)&0xf0)==0&&i!=3){
+				if(((n+i*16)&0xf0)==0&&i!=3){
 					if((n&1)==0){
-						new Turret(i*GraphicsMain.SIZE/4f+50, 450, n%level, Active[n%level]);
-						new PowerUp(i*GraphicsMain.SIZE/4f+50, 500,n%level);
+						new Turret(i*GraphicsMain.SIZE/4f+50, 450, n%level, (n&4)==0);
+						new PowerUp(i*GraphicsMain.SIZE/4f+50, 480,n%2);
 						i++;
 						new Switch(i*GraphicsMain.SIZE/4f+50, 430, n%level);
 					}
 					else{
 						new Switch(i*GraphicsMain.SIZE/4f+50, 430, n%level);
 						i++;
-						new Turret(i*GraphicsMain.SIZE/4f+50, 450, n%level, Active[n%level]);
-						new PowerUp(i*GraphicsMain.SIZE/4f+50, 500,n%level);
+						new Turret(i*GraphicsMain.SIZE/4f+50, 450, n%level, (n&4)==0);
+						new PowerUp(i*GraphicsMain.SIZE/4f+50, 480,n%2);
 						
 					}
 					i++;
@@ -180,7 +181,7 @@ public class PlayState extends GameState{
 				i++;
 			}
 			else if(((n+i)&3)==0){
-				new Obstacle(i*GraphicsMain.SIZE/4f, 500, 100, 5,  n%level,Active[ n%level] );
+				new Obstacle(i*GraphicsMain.SIZE/4f, 500, 100, 5,  n%level, (n&4)==0);
 				new PowerUp(i*GraphicsMain.SIZE/4f+50, 520, n%5);
 			}
 			if(i>3)return;
