@@ -35,7 +35,7 @@ public class Shot implements Entity {
 
 	@Override
 	public void render(SpriteBatch batch) {
-		batch.draw(new TextureRegion(TextureManager.shotTexture), x-2.5f, y-10f,0,0, 2.5f*2, 10f*2,1,1,MathUtils.atan2(ym, xm)*MathUtils.radiansToDegrees-90);
+		batch.draw(new TextureRegion(TextureManager.shotTexture), x-2.5f, y-10f,2.5f,10f, 2.5f*2, 10f*2,1,1,MathUtils.atan2(ym, xm)*MathUtils.radiansToDegrees-90);
 	}
 
 

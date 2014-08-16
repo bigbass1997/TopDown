@@ -24,7 +24,7 @@ import com.staticvoidgames.topdown.managers.GameStateManager;
 public class PlayState extends GameState{
 	public static float ScrollSpeed=0.2f;
 	public static boolean[] Active=new boolean[5];
-	private static final float TIMESTEP = 0.005f;
+	private static final float TIMESTEP = 0.00416f;
 	private float remaining=0;
 	public static Player player;
 	private static int score=0;
@@ -42,6 +42,7 @@ public class PlayState extends GameState{
 
 	@Override
 	public void update(float delta) {
+		System.out.println(delta);
 		remaining+=delta;
 		while (remaining>TIMESTEP) {
 			remaining-= TIMESTEP;
