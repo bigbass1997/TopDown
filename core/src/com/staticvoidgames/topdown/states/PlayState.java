@@ -23,8 +23,8 @@ import com.staticvoidgames.topdown.managers.GameStateManager;
 
 public class PlayState extends GameState{
 	public static float ScrollSpeed=0.2f;
-	public static boolean[] Active=new boolean[5];
-	private static final float TIMESTEP = 0.00416f;
+	
+	private static final float TIMESTEP = 1/100f;
 	private float remaining=0;
 	public static Player player;
 	private static int score=0;
@@ -42,7 +42,6 @@ public class PlayState extends GameState{
 
 	@Override
 	public void update(float delta) {
-		System.out.println(delta);
 		remaining+=delta;
 		while (remaining>TIMESTEP) {
 			remaining-= TIMESTEP;
@@ -60,7 +59,11 @@ public class PlayState extends GameState{
 		batch.end();
 		GraphicsMain.shaperenderer.setColor(Color.RED);
 		GraphicsMain.shaperenderer.begin(ShapeType.Filled);
-		GraphicsMain.shaperenderer.rect(0, 0, player.life,10);
+		GraphicsMain.shaperenderer.rect(0, 0, player.life/4,10);
+		GraphicsMain.shaperenderer.setColor(Color.PINK);
+		GraphicsMain.shaperenderer.rect(player.life/4, 0,player.heal/4,10);
+		GraphicsMain.shaperenderer.setColor(Color.GREEN);
+		GraphicsMain.shaperenderer.rect(0, 10, 10, player.ammo);
 		GraphicsMain.shaperenderer.end();
 		batch.begin();
 		gsm.dm.String("SCORE  "+score, 5, GraphicsMain.SIZE, gsm.fm.fs32, 0xff0000FF);
@@ -91,26 +94,28 @@ public class PlayState extends GameState{
 	private boolean BossIsThere=false;
 	private Entity Boss;
 	private int n=0;
-	public static int level=1;
+	public static int level=3;
+	public static boolean[] Active=new boolean[level];
 	/**
 	 * Multiple calls are necessary, depending on the time passed.
 	 */
 	public void tick(){
-		ScrollSpeed=(level+2)/10f;
-		if(time%10==0)score++;
+		ScrollSpeed=1.5f;
+		if(time%5==0)score++;
 		
 		time++;
 		if(BossIsThere){
 			if(Boss.isdead()){
 				BossIsThere=false;
 				level++;
+				Active=new boolean[level];
 				player.losepowerups();
 				System.out.println("levelup");
 			}
 		}
 		if(!BossIsThere){
 			
-			if(score>500*level+(level-1)*level*200){
+			if(score>300*level+(level-1)*level*100){
 				switch (level) {
 				case 1:
 					Boss=new FirstBoss(-150, 350);
@@ -120,7 +125,7 @@ public class PlayState extends GameState{
 					break;
 				case 3:
 					Boss=new ThirdBoss();
-					new Rock(-50, 200, 0.1f, 0, 10000);
+					new Rock(-50, 200, 0.5f, 0, 10000);
 					break;
 				}
 				BossIsThere=true;
@@ -153,41 +158,27 @@ public class PlayState extends GameState{
 		//&(n-1) is the same as %n if n is a power of 2
 		n=(int) (time*ScrollSpeed/60)+(seed>>>(1+(time&31)));
 		System.out.println(Integer.toBinaryString(n&3));
-		int i=0;
-		while(i<4){
-			if(level>=2){
-				if(((n+i)&0x38)==0)new Obstacle(((n%3+1)*GraphicsMain.SIZE/4f)-2.5f, 450, 5, 100, n%level, (n&4)==0);
-			}
-			if(level>=3){
-				if(((n+i*16)&0xf0)==0&&i!=3){
-					if((n&1)==0){
-						new Turret(i*GraphicsMain.SIZE/4f+50, 450, n%level, (n&4)==0);
-						new PowerUp(i*GraphicsMain.SIZE/4f+50, 480,n%2);
-						i++;
-						new Switch(i*GraphicsMain.SIZE/4f+50, 430, n%level);
-					}
-					else{
-						new Switch(i*GraphicsMain.SIZE/4f+50, 430, n%level);
-						i++;
-						new Turret(i*GraphicsMain.SIZE/4f+50, 450, n%level, (n&4)==0);
-						new PowerUp(i*GraphicsMain.SIZE/4f+50, 480,n%2);
-						
-					}
-					i++;
-				}
-				if(i>3)return;
-			}
-			if(((n+i)&15)==1){
-				new Switch(i*GraphicsMain.SIZE/4f+50, 450, n%level);
-				i++;
-			}
-			else if(((n+i)&3)==0){
-				new Obstacle(i*GraphicsMain.SIZE/4f, 500, 100, 5,  n%level, (n&4)==0);
-				new PowerUp(i*GraphicsMain.SIZE/4f+50, 520, n%5);
-			}
-			if(i>3)return;
-			i++;
+		if(level>=2){
+			if(((n)&0x38)==0)new Obstacle(n%(GraphicsMain.SIZE-2.5f), 400, 20, 100, n%level, (n&4)==0);
 		}
+		if((n&level)==0){
+			new Obstacle(n%(GraphicsMain.SIZE-100), 400, 100, 90,  n%level, (n&4)==0);
+			new PowerUp(n%(GraphicsMain.SIZE-100)+50, 420, n%5);
+		}
+		else if(level>=3&&((n)&0x10)==0){
+			new Turret((n&3)*GraphicsMain.SIZE/4f+50, 450, n%level, (n&4)==0);
+			new PowerUp((n&3)*GraphicsMain.SIZE/4f+50, 470,n%2);
+			new Switch((n%GraphicsMain.SIZE), 430, n%level);
+		}
+		else if((n&15)==1){
+			new Switch(n%(GraphicsMain.SIZE-50)+25, 400, n%level);
+			new Obstacle(0, 450, GraphicsMain.SIZE, 50,  n%level, (n&4)==1);
+		}
+		else{
+			new Obstacle(n%(GraphicsMain.SIZE-100), 400, 100, 20,  n%level, (n&4)==0);
+			new Switch(n%(GraphicsMain.SIZE-100)+50, 450, n%level);
+		}
+		
 	}
 	private void Gameover() {
 		

@@ -2,9 +2,12 @@ package com.staticvoidgames.topdown.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Polygon;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.staticvoidgames.topdown.GraphicsMain;
 import com.staticvoidgames.topdown.managers.TextureManager;
 import com.staticvoidgames.topdown.states.PlayState;
 
@@ -23,13 +26,17 @@ public class Player implements Entity{
 	private float ym;
 	
 	private int timer = 10;
-	int cooldown = 100;
+	int cooldown = 10;
 	
-	float speed = 0.5f;
+	float speed = 0.2f;
 	public int life;
+	public int ammo;
+	public int heal;
+	final int DamageThreshold=100;
 	
 	public Player(float x, float y) {
-		life=400;
+		life=1000;
+		ammo=200;
 		polygon= new Polygon(new float[]{
 				0,9,
 				-8,-6,
@@ -53,9 +60,10 @@ public class Player implements Entity{
 		Input input = Gdx.input;
 		timer--;
 		if(timer<0){
-			if(input.isKeyPressed(Keys.SPACE)){
-				int s= shotamount;
-				float basespeed=1.5f;
+			if(ammo>0&&input.isKeyPressed(Keys.SPACE)){
+				int s= ammo/50;
+				ammo-=s;
+				float basespeed=3f;
 				if(s%2==0){
 						for (int i = 0; i < s/2; i++) {
 							new Shot(-i*10+x-5, y+20, 0, basespeed-i/10f);
@@ -79,18 +87,25 @@ public class Player implements Entity{
 		
 		
 		if(input.isKeyPressed(Keys.LEFT) || input.isKeyPressed(Keys.A)){
-			xm = -speed;
+			xm += -speed;
 		}else if(input.isKeyPressed(Keys.RIGHT) || input.isKeyPressed(Keys.D)){
-			xm = speed;
-		}else{
-			xm = 0.0f;
+			xm += speed;
 		}
-		
+		if(input.isKeyPressed(Keys.UP) || input.isKeyPressed(Keys.W)){
+			ym += speed;
+		}else if(input.isKeyPressed(Keys.DOWN) || input.isKeyPressed(Keys.S)){
+			ym += -speed;
+		}
+		if(Math.abs(GraphicsMain.SIZE/2-x)>GraphicsMain.SIZE/4)xm+=(GraphicsMain.SIZE/2-x)/2000f;
+		ym+=(GraphicsMain.SIZE/4-y)/500f;
+		xm*=0.95;
+		ym*=0.95;
+		if(heal>0){
+			heal--;
+			life++;
+		}
 	}
 	public int losepowerups(){
-		speed=0.5f;
-		shotamount=1;
-		cooldown=100;
 		return 0;
 	}
 	@Override
@@ -106,6 +121,7 @@ public class Player implements Entity{
 
 	@Override
 	public void hit(int damage) {
+		heal+=damage/2;
 		life-=damage;
 	}
 

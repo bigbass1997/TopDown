@@ -72,7 +72,7 @@ public class LShot implements Entity {
 
 		@Override
 		public void collide( Entity entity) {
-			entity.hit(2);
+			entity.hit(20);
 			dead=true;
 		}
 

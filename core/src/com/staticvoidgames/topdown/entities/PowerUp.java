@@ -8,17 +8,17 @@ import com.staticvoidgames.topdown.states.PlayState;
 public class PowerUp implements Entity{
 	
 	Polygon polygon;
-	private float x, y;
+	private float x, y, xm, ym;
 	boolean taken;
 	/**
-	 * 0-->increase shot amount.
-	 * 1-->increase fire-rate.
+	 * 0-->life.
+	 * 1-->ammo.
 	 */
 	public int powerUpType;
 	/**
 	 * @param powerUpType
-	 * 0-->increase shot amount.
-	 * 1-->increase fire-rate.
+	 * 0-->life.
+	 * 1-->ammo.
 	 */
 	public PowerUp(float x, float y,int powerUpType) {
 		polygon= new Polygon(new float[]{
@@ -33,6 +33,21 @@ public class PowerUp implements Entity{
 		this.x = x;
 		this.y = y;
 	}
+	public PowerUp(float x, float y,float xm,float ym,int powerUpType) {
+		polygon= new Polygon(new float[]{
+				-10,-10,
+				-10,10,
+				10,10,
+				10,-10,
+		});
+		polygon.translate(x, y);
+		PlayState.entities.add(this);
+		this.powerUpType=powerUpType;
+		this.x = x;
+		this.y = y;
+		this.xm=xm;
+		this.ym=ym;
+	}
 
 
 	@Override
@@ -45,6 +60,9 @@ public class PowerUp implements Entity{
 	public void update() {
 		y-=PlayState.ScrollSpeed;
 		polygon.translate(0, -PlayState.ScrollSpeed);
+		x+=xm;
+		y+=ym;
+		polygon.translate(xm, ym);
 	}
 
 	@Override
@@ -58,10 +76,10 @@ public class PowerUp implements Entity{
 			Player player = (Player)entity;
 			switch (powerUpType) {
 			case 0:
-				player.shotamount+=1;
+				player.heal+=50;
 				break;
 			case 1:
-				player.cooldown=player.cooldown/2+20;
+				player.ammo+=10;
 				break;
 			default:
 				break;

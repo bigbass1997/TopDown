@@ -8,8 +8,7 @@ import com.staticvoidgames.topdown.GraphicsMain;
 import com.staticvoidgames.topdown.states.PlayState;
 
 public class Turret implements Entity {
-	private int cooldown = 50;
-	Polygon polygon;
+	private int cooldown = 20;
 	boolean activated;
 	int color;
 	private boolean ReactTo;
@@ -20,15 +19,8 @@ public class Turret implements Entity {
 	public Turret(float x, float y, int color,boolean Reacto) {
 		time=cooldown;
 		this.ReactTo=Reacto;
-		polygon= new Polygon(new float[]{
-				-size,-size,
-				-size,size,
-				size,size,
-				size,-size,
-		});
 		this.x=x;
 		this.y=y;
-		polygon.translate(x, y);
 		this.color=color;
 		PlayState.entities.add(this);
 	}
@@ -60,22 +52,17 @@ public class Turret implements Entity {
 				float d=(float) Math.hypot(Dx, Dy);
 				Dx/=d;
 				Dy/=d;
-				if(Dy<-PlayState.ScrollSpeed){
-					new Shot(x, y-(size+10), Dx, Dy);
-				}
+				if(Dy<0)new Shot(x, y-(size+10), Dx*4, Dy*4);
 				time=cooldown;
 			}
 			else time--;
 		}
-		
 		y-=PlayState.ScrollSpeed;
-		polygon.translate(0, -PlayState.ScrollSpeed);
 	}
 
 	@Override
 	public Polygon[] getPolygons() {
-		if(PlayState.Active[color]==ReactTo)return new Polygon[]{polygon};
-		else return new Polygon[]{};
+		return new Polygon[]{};
 	}
 
 	@Override

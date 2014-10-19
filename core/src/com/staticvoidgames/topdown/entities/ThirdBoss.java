@@ -24,7 +24,7 @@ public class ThirdBoss implements Entity {
 		x=200;
 		y=500;
 		strength=1;
-		life=60;
+		life=450;
 		time=cooldown;
 		megaAttack=megaCooldown;
 		polygon= new Polygon(new float[]{
@@ -56,9 +56,9 @@ public class ThirdBoss implements Entity {
 			ym=0;
 		}
 		if (megaAttack<500) {
-			if(megaAttack%20==1){
+			if(megaAttack%30==1){
 				for (int i = 0; i < 16; i++) {
-					new LShot(x+(i-10)*10, y-(size+12), i*25+(megaAttack/16), 3 , false);
+					new LShot(x+(i-10)*10, y-(size+12), i*25+(megaAttack/16), 6 , false);
 				}
 			}
 			ym=0;

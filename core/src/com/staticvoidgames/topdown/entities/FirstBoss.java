@@ -20,9 +20,10 @@ public class FirstBoss implements Entity {
 	private float xm;
 	private int life;
 	boolean goright=true;
+	private boolean dead;
 	public FirstBoss(float x, float y) {
 		strength=1;
-		life=30;
+		life=250;
 		time=cooldown;
 		polygon= new Polygon(new float[]{
 				-size,-size,
@@ -52,15 +53,15 @@ public class FirstBoss implements Entity {
 	public void update() {
 		if(time<0){
 			if(goright){
-				xm=0.2f;
+				xm=0.6f;
 				if(x>tx)goright=false;
 			}
 			else{
-				xm=-0.2f;
+				xm=-0.6f;
 				if(x<tx)goright=true;
 			}
 			tx = PlayState.player.x;
-			new Shot(x, y-(size+11), 0, -1.2f);
+			new Shot(x, y-(size+11), 0, -3f);
 			time=cooldown+200/strength;
 			strength++;
 		}
@@ -83,12 +84,18 @@ public class FirstBoss implements Entity {
 	@Override
 	public void hit(int damage) {
 		life-=damage;
+		if(!dead&&life<0){
+			dead=true;
+			for (int i = 0; i < 10; i++) {
+				new PowerUp(x, y, (i-5)/10f, -i/10f, i%2);
+			}
+		}
 	}
 
 
 	@Override
 	public boolean isdead() {
-		return life<0;
+		return dead;
 	}
 
 }

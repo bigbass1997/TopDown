@@ -58,8 +58,8 @@ public class Obstacle implements Entity {
 	}
 
 	@Override
-	public void collide( Entity entity) {
-		entity.hit(1);
+	public void collide(Entity entity) {
+		entity.hit(3);
 	}
 
 

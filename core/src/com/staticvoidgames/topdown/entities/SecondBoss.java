@@ -8,7 +8,7 @@ import com.staticvoidgames.topdown.GraphicsMain;
 import com.staticvoidgames.topdown.states.PlayState;
 
 public class SecondBoss implements Entity {
-	private int cooldown = 25;
+	private int cooldown = 50;
 	int strength=0;
 	Polygon polygon;
 	final int size=10;
@@ -18,9 +18,10 @@ public class SecondBoss implements Entity {
 	private float xm;
 	private int life;
 	boolean goright=true;
+	private boolean dead;
 	public SecondBoss(float x, float y) {
 		strength=1;
-		life=45;
+		life=350;
 		time=cooldown;
 		polygon= new Polygon(new float[]{
 				-size,-size,
@@ -50,22 +51,22 @@ public class SecondBoss implements Entity {
 	public void update() {
 		if(time<0){
 			if(goright){
-				xm=0.2f;
+				xm=0.6f;
 				if(x>300)goright=false;
 			}
 			else{
-				xm=-0.2f;
+				xm=-0.6f;
 				if(x<100)goright=true;
 			}
 			if(Math.abs(PlayState.player.x-x)>100){
-				new LShot(x, y+(size+11), PlayState.player.x, 2 , false);
-				new LShot(x, y-(size+11), PlayState.player.x, 2 , false);
+				new LShot(x, y+(size+11), PlayState.player.x, 6 , false);
+				new LShot(x, y-(size+11), PlayState.player.x, 6 , false);
 			}
 			else{
-				new Shot(x+5, y-(size+11), 0, -1.2f);
-				new Shot(x-5, y-(size+11), 0, -1.2f);
+				new Shot(x+5, y-(size+11), 0, -6f);
+				new Shot(x-5, y-(size+11), 0, -6f);
 			}
-			time=cooldown+500/strength;
+			time=cooldown+200/strength;
 			strength++;
 		}
 		else time--;
@@ -87,12 +88,21 @@ public class SecondBoss implements Entity {
 	@Override
 	public void hit(int damage) {
 		life-=damage;
+		if(!dead&&life<0){
+			dead=true;
+			for (int i = 0; i < 10; i++) {
+				new PowerUp(x, y, (i-5)/10f, -i/10f, i%2);
+			}
+			for (int i = 0; i < 10; i++) {
+				new PowerUp(x, y, (5-i)/10f, -i/10f, i%2);
+			}
+		}
 	}
 
 
 	@Override
 	public boolean isdead() {
-		return life<0;
+		return dead;
 	}
 
 }
