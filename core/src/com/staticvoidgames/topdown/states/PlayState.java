@@ -59,9 +59,9 @@ public class PlayState extends GameState{
 		batch.end();
 		GraphicsMain.shaperenderer.setColor(Color.RED);
 		GraphicsMain.shaperenderer.begin(ShapeType.Filled);
-		GraphicsMain.shaperenderer.rect(0, 0, player.life/4,10);
+		GraphicsMain.shaperenderer.rect(0, 0, player.life/2,10);
 		GraphicsMain.shaperenderer.setColor(Color.PINK);
-		GraphicsMain.shaperenderer.rect(player.life/4, 0,player.heal/4,10);
+		GraphicsMain.shaperenderer.rect(player.life/2, 0,player.heal/2,10);
 		GraphicsMain.shaperenderer.setColor(Color.GREEN);
 		GraphicsMain.shaperenderer.rect(0, 10, 10, player.ammo);
 		GraphicsMain.shaperenderer.end();

@@ -2,11 +2,9 @@ package com.staticvoidgames.topdown.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Polygon;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.staticvoidgames.topdown.GraphicsMain;
 import com.staticvoidgames.topdown.managers.TextureManager;
 import com.staticvoidgames.topdown.states.PlayState;
@@ -35,7 +33,7 @@ public class Player implements Entity{
 	final int DamageThreshold=100;
 	
 	public Player(float x, float y) {
-		life=1000;
+		life=500;
 		ammo=200;
 		polygon= new Polygon(new float[]{
 				0,9,
